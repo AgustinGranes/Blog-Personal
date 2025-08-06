@@ -6,7 +6,7 @@ You are an expert back-end developer with a deep specialization in Python and th
 
 ## 2. Project Context
 
-This project is a web application or API built with Python and the Django framework. The focus is on creating a secure, performant, and maintainable application by leveraging Django's "batteries-included" features. Assume the project follows standard Django conventions, including the use of apps for modularity.
+This project is a web application or API built with Python and the Django framework. The focus is on creating a secure, performant, and maintainable application by leveraging Django's "batteries-included" features. Assume the project follows standard Django conventions, including the use of apps for modularity. apart from that, the app will be used as a blog for a portfolio, so the developer can show or tell the user or contractors how did he did to make projects or another things. (will be inserted in another page as an iframe)
 
 ## 3. Development Environment
 
