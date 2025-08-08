@@ -441,22 +441,12 @@
     </div>
 
     <script>
-        let currentSlide = 0;
+        let currentPage = 0;
         const slides = document.getElementById('slides');
         let totalSlides = slides ? slides.children.length : 0;
         let postsToShow = 2;
+        let totalPages = Math.ceil(totalSlides / postsToShow);
         let currentPostId = null;
-        
-        if (totalSlides % 2 !== 0) {
-            // Agregar un div vacío para que el layout no se corte
-            const emptyDiv = document.createElement('div');
-            emptyDiv.className = 'slide';
-            emptyDiv.style.background = 'transparent';
-            emptyDiv.style.boxShadow = 'none';
-            emptyDiv.style.pointerEvents = 'none';
-            slides.appendChild(emptyDiv);
-            totalSlides++;
-        }
         
         const leftBtn = document.getElementById('sliderLeft');
         const rightBtn = document.getElementById('sliderRight');
@@ -468,23 +458,52 @@
                 if (rightBtn) rightBtn.classList.remove('active');
                 return;
             }
-            if (leftBtn) leftBtn.classList.toggle('active', currentSlide > 0);
-            if (rightBtn) rightBtn.classList.toggle('active', currentSlide < totalSlides - postsToShow);
+            if (leftBtn) leftBtn.classList.toggle('active', currentPage > 0);
+            if (rightBtn) rightBtn.classList.toggle('active', currentPage < totalPages - 1);
         }
         
         function moveSlide(dir) {
             if (!slides) return;
             if (totalSlides <= postsToShow) return;
-            currentSlide += dir * postsToShow;
-            if (currentSlide < 0) currentSlide = 0;
-            if (currentSlide > totalSlides - postsToShow) currentSlide = totalSlides - postsToShow;
-            slides.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
+            
+            const oldPage = currentPage;
+            currentPage += dir;
+            
+            // Limitar el movimiento por páginas
+            if (currentPage < 0) {
+                currentPage = 0;
+            } else if (currentPage >= totalPages) {
+                currentPage = totalPages - 1;
+            }
+            
+            // Solo mover si hay cambio
+            if (currentPage !== oldPage) {
+                let translateX;
+                
+                if (currentPage === totalPages - 1 && totalSlides % postsToShow === 1) {
+                    // Última página con un solo post - centrarlo
+                    const postsBeforeLastPage = (totalPages - 1) * postsToShow;
+                    const offsetPerPost = 100 / totalSlides;
+                    translateX = -(postsBeforeLastPage * offsetPerPost) + (offsetPerPost / 2);
+                } else {
+                    // Página normal - mostrar 2 posts
+                    const postsToMove = currentPage * postsToShow;
+                    const offsetPerPost = 100 / totalSlides;
+                    translateX = -(postsToMove * offsetPerPost);
+                }
+                
+                slides.style.transform = `translateX(${translateX}%)`;
+            }
+            
             updateSliderBtns();
         }
         
-        // Ajustar el ancho de .slides para mostrar 2 cards
-        if (slides) {
-            slides.style.width = `${(100 / postsToShow) * totalSlides}%`;
+        // Configurar slider inicial
+        if (slides && totalSlides > 0) {
+            slides.style.width = `${totalSlides * 50}%`;
+            Array.from(slides.children).forEach(slide => {
+                slide.style.width = `${100 / totalSlides}%`;
+            });
         }
         updateSliderBtns();
 
