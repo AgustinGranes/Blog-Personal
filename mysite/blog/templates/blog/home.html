@@ -215,6 +215,173 @@
             height: 1.2em;
             line-height: 1.2em;
         }
+        .no-posts {
+            color: #fff;
+            font-size: 1.5em;
+            text-align: center;
+        }
+        
+        /* Popup Styles */
+        .popup-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .popup-bg.active {
+            display: flex;
+        }
+        .popup {
+            background: white;
+            padding: 0;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+        .popup-content {
+            padding: 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .popup img {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        .popup h2 {
+            font-size: 1.5em;
+            margin-bottom: 16px;
+            color: #222;
+        }
+        .popup-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            font-size: 24px;
+            color: #4071f4;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 1001;
+        }
+        
+        /* Comments Section */
+        .comments-section {
+            border-top: 1px solid #eee;
+            padding: 20px 24px;
+            background: #f8f9fa;
+            margin-top: 20px;
+        }
+        .comments-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 16px;
+            color: #333;
+        }
+        .comment-form {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .comment-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .comment-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            resize: vertical;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+        .comment-submit {
+            background: #4071f4;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .comment-submit:hover {
+            background: #3060e3;
+        }
+        .comment-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .comments-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .comment {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .comment-username {
+            font-weight: bold;
+            color: #4071f4;
+            font-size: 14px;
+        }
+        .comment-date {
+            color: #666;
+            font-size: 12px;
+        }
+        .comment-content {
+            color: #333;
+            line-height: 1.4;
+            font-size: 14px;
+        }
+        .no-comments {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+        .error-message {
+            background: #ffe6e6;
+            color: #d00;
+            padding: 8px 12px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -235,9 +402,9 @@
                                     <div class="slide-inner">
                                         <div class="slide-cover">
                                             {% if post.cover %}
-                                                <img src="{{ post.cover.url }}" alt="Portada">
+                                                <img src="{{ post.cover.url }}" alt="Portada" onerror="this.src='https://via.placeholder.com/300x100/e0e0e0/999?text=Imagen+no+disponible'">
                                             {% else %}
-                                                <img src="https://via.placeholder.com/300x100?text=No+Img" alt="Sin portada">
+                                                <img src="https://via.placeholder.com/300x100/e0e0e0/999?text=Sin+imagen" alt="Sin portada">
                                             {% endif %}
                                         </div>
                                         <div class="slide-content">
@@ -257,73 +424,29 @@
                 {% else %}
                     <div class="no-posts">Aún no hay nada aquí</div>
                 {% endif %}
+                </div>
             </div>
         </div>
+        
         <!-- Popup -->
         <div class="popup-bg" id="popupBg">
             <div class="popup" id="popupContent">
                 <button class="popup-close" onclick="closePopup()">&times;</button>
-                <!-- El contenido del popup se inserta por JS -->
+                <div class="popup-content" id="popupMainContent">
+                    <!-- El contenido del post se inserta aquí -->
+                    <!-- Los comentarios se cargan aquí al final del contenido -->
+                </div>
             </div>
         </div>
     </div>
-    <style>
-        .popup-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .popup-bg.active {
-            display: flex;
-        }
-        .popup {
-            background: white;
-            padding: 24px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-        .popup img {
-            width: 100%;
-            height: auto;
-            max-height: 300px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-        .popup h2 {
-            font-size: 1.5em;
-            margin-bottom: 16px;
-            color: #222;
-        }
-        .popup .popup-close {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 24px;
-            color: #4071f4;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            z-index: 1001;
-        }
-    </style>
+
     <script>
         let currentSlide = 0;
         const slides = document.getElementById('slides');
         let totalSlides = slides ? slides.children.length : 0;
         let postsToShow = 2;
+        let currentPostId = null;
+        
         if (totalSlides % 2 !== 0) {
             // Agregar un div vacío para que el layout no se corte
             const emptyDiv = document.createElement('div');
@@ -334,8 +457,10 @@
             slides.appendChild(emptyDiv);
             totalSlides++;
         }
+        
         const leftBtn = document.getElementById('sliderLeft');
         const rightBtn = document.getElementById('sliderRight');
+        
         function updateSliderBtns() {
             if (!slides) return;
             if (totalSlides <= postsToShow) {
@@ -346,6 +471,7 @@
             if (leftBtn) leftBtn.classList.toggle('active', currentSlide > 0);
             if (rightBtn) rightBtn.classList.toggle('active', currentSlide < totalSlides - postsToShow);
         }
+        
         function moveSlide(dir) {
             if (!slides) return;
             if (totalSlides <= postsToShow) return;
@@ -355,16 +481,18 @@
             slides.style.transform = `translateX(-${currentSlide * (100 / totalSlides)}%)`;
             updateSliderBtns();
         }
+        
         // Ajustar el ancho de .slides para mostrar 2 cards
         if (slides) {
             slides.style.width = `${(100 / postsToShow) * totalSlides}%`;
         }
         updateSliderBtns();
 
-        // Popup logic
+        // Posts data
         const postsData = JSON.parse(`[
             {% for post in posts %}
                 {
+                    "id": {{ post.id }},
                     "title": "{{ post.title|escapejs }}",
                     "content": "{{ post.content|linebreaksbr|escapejs }}",
                     "pub_date": "{{ post.pub_date|date:'d/m/Y H:i' }}",
@@ -372,24 +500,172 @@
                 }{% if not forloop.last %},{% endif %}
             {% endfor %}
         ]`);
+        
         function openPopup(idx) {
             idx = parseInt(idx);
             const post = postsData[idx];
             if (!post) return;
+            
+            currentPostId = post.id;
+            
             let html = '';
-            if (post.cover) html += `<img src="${post.cover}" alt="Portada">`;
+            if (post.cover) {
+                html += `<img src="${post.cover}" alt="Portada" onerror="this.src='https://via.placeholder.com/600x300/e0e0e0/999?text=Imagen+no+disponible'">`;
+            }
             html += `<h2>${post.title}</h2>`;
-            html += `<div style='color:#444;font-size:1.1em;margin-bottom:12px;'>${post.content}</div>`;
+            html += `<div style='color:#444;font-size:1.1em;margin-bottom:12px;line-height:1.6;'>${post.content}</div>`;
             html += `<p style='color:#666;font-size:0.95em;'><i>${post.pub_date}</i></p>`;
-            document.getElementById('popupContent').innerHTML = `<button class='popup-close' onclick='closePopup()'>&times;</button>` + html;
+            
+            // Agregar sección de comentarios al final del contenido
+            html += `<div class="comments-section" id="commentsSection">
+                <!-- Los comentarios se cargan aquí -->
+            </div>`;
+            
+            document.getElementById('popupMainContent').innerHTML = html;
             document.getElementById('popupBg').classList.add('active');
+            
+            // Cargar comentarios
+            loadComments(post.id);
         }
+        
         function closePopup() {
             document.getElementById('popupBg').classList.remove('active');
+            currentPostId = null;
         }
+        
+        function loadComments(postId) {
+            fetch(`/post/${postId}/comments/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderComments(data.comments);
+                    } else {
+                        console.error('Error loading comments:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+        
+        function renderComments(comments) {
+            const commentsSection = document.getElementById('commentsSection');
+            
+            let html = `
+                <div class="comments-title">Comentarios (${comments.length})</div>
+                <div class="comment-form">
+                    <input type="text" class="comment-input" id="usernameInput" placeholder="Tu nombre" maxlength="100">
+                    <textarea class="comment-textarea" id="commentInput" placeholder="Escribe tu comentario..." maxlength="1000"></textarea>
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+                    <button class="comment-submit" onclick="submitComment()">Comentar</button>
+                </div>
+                <div class="comments-list" id="commentsList">
+            `;
+            
+            if (comments.length === 0) {
+                html += '<div class="no-comments">No hay comentarios aún. ¡Sé el primero en comentar!</div>';
+            } else {
+                comments.forEach(comment => {
+                    html += `
+                        <div class="comment">
+                            <div class="comment-header">
+                                <span class="comment-username">${escapeHtml(comment.username)}</span>
+                                <span class="comment-date">${comment.created_date}</span>
+                            </div>
+                            <div class="comment-content">${escapeHtml(comment.content)}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            html += '</div>';
+            commentsSection.innerHTML = html;
+        }
+        
+        function submitComment() {
+            if (!currentPostId) return;
+            
+            const username = document.getElementById('usernameInput').value.trim();
+            const content = document.getElementById('commentInput').value.trim();
+            const errorDiv = document.getElementById('errorMessage');
+            const submitBtn = document.querySelector('.comment-submit');
+            
+            // Limpiar errores previos
+            errorDiv.style.display = 'none';
+            
+            if (!username || !content) {
+                showError('Por favor completa todos los campos');
+                return;
+            }
+            
+            if (username.length > 100) {
+                showError('El nombre de usuario es muy largo');
+                return;
+            }
+            
+            if (content.length > 1000) {
+                showError('El comentario es muy largo');
+                return;
+            }
+            
+            // Deshabilitar botón mientras se envía
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+            
+            fetch(`/post/${currentPostId}/comment/add/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    content: content
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Limpiar formulario
+                    document.getElementById('usernameInput').value = '';
+                    document.getElementById('commentInput').value = '';
+                    // Recargar comentarios
+                    loadComments(currentPostId);
+                } else {
+                    showError(data.error || 'Error al enviar comentario');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showError('Error de conexión');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Comentar';
+            });
+        }
+        
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
         // Cerrar popup con ESC
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closePopup();
+        });
+        
+        // Cerrar popup clickeando fuera
+        document.getElementById('popupBg').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
         });
     </script>
 </body>
