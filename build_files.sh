@@ -1,3 +1,7 @@
 #!/bin/bash
+
+# Instala las dependencias
 pip install -r requirements.txt
-python3.9 manage.py collectstatic --noinput
+
+# Navega al directorio de tu proyecto Django y ejecuta collectstatic
+python mysite/manage.py collectstatic --noinput
