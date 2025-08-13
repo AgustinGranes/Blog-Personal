@@ -1,0 +1,947 @@
+@font-face {
+    font-family: 'MiFuentePersonalizada';
+    src: url('./Assets/Barlow-Black.ttf') format('truetype'); /* Asegúrate que la ruta al archivo .ttf sea correcta */
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'MiFuentePersonalizada', 'Open Sans', sans-serif;
+    overflow-x: hidden;
+    background-color: #ffffff;
+    overflow-y: hidden; /* Esto previene el scroll vertical normal, el JS lo maneja */
+}
+
+.section {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+    border: none; /* No es necesario si no hay borde por defecto */
+}
+
+.menu {
+    width: 37.5%;
+    height: 70px;
+    background: rgba(128, 128, 128, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.menu.hidden {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+}
+
+.logo-space {
+    width: 120px; /* Ajusta según el tamaño real de tu logo */
+    height: 40px; /* Ajusta según el tamaño real de tu logo */
+    display: flex;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.logo-space img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #4070f4; /* Un color de hover que combine */
+}
+
+.dot-navigation {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1000;
+}
+
+.dot-navigation ul {
+    list-style: none;
+}
+
+.dot-navigation li {
+    margin: 15px 0;
+}
+
+.dot-navigation a {
+    display: block;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid #000; /* Color del borde del punto */
+    background: #fff; /* Color de fondo del punto */
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.dot-navigation a:hover,
+.dot-navigation a.active {
+    background: #000; /* Color del punto activo/hover */
+    transform: scale(1.3);
+    border-color: #fff; /* Color del borde del punto activo/hover */
+    box-shadow: 0 0 0 2px #000; /* Sombra exterior para destacar */
+}
+
+#inicio {
+    display: flex;
+    align-items: center;
+    padding-left: 40px; /* Espacio para el texto */
+    background-color: #4071f4; /* Color de fondo para la sección de inicio */
+}
+
+.background-image {
+    position: fixed; /* Cambiado a fixed para que no se mueva con el scroll de la sección */
+    top: 10%;  /* Ajusta para centrar verticalmente */
+    right: -65%; /* Mueve la imagen fuera de la vista inicial a la derecha */
+    transform: translateY(-50%); /* Centra verticalmente respecto a 'top' */
+    width: 125%; /* Tamaño del blob */
+    height: 125%;
+    background-image: url('./Assets/blob.png'); /* Ruta a tu imagen de blob */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 1; /* Detrás del contenido pero visible */
+}
+
+.foreground-image {
+    position: fixed; /* Cambiado a fixed */
+    top: 55%; /* Ajusta para la posición deseada */
+    right: -10%; /* Ajusta para la posición deseada */
+    transform: translateY(-50%);
+    width: 70%;   /* Tamaño de tu imagen personal */
+    height: 70%;
+    background-image: url('./Assets/Me.png'); /* Ruta a tu imagen personal */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 2; /* Encima del blob de fondo */
+    pointer-events: none; /* Para que no interfiera con clics */
+}
+/* Nueva sección: fondo Banner Fondo.png */
+#proyectos {
+    position: relative; /* Para que el z-index de .contenido-proyectos funcione */
+    background: url('./Assets/Banner Fondo.png') center 0%/cover no-repeat; /* Ajustado para cubrir y centrar */
+    min-height: 100vh;
+    width: 100%;
+    display: flex; /* Para centrar el contenido */
+    align-items: center;
+    justify-content: center;
+}
+#proyectos .contenido-proyectos {
+    position: relative; /* Para que esté por encima del fondo */
+    z-index: 2;
+    color: #fff; /* Color del texto */
+    text-align: center;
+    background: rgba(0,0,0,0.35); /* Fondo semi-transparente para legibilidad */
+    padding: 40px 30px;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25); /* Sombra sutil */
+}
+
+
+.container {
+    width: 100%;
+    position: relative; /* Para que el z-index funcione si es necesario */
+    z-index: 3; /* Encima de las imágenes de fondo */
+    padding-left: 80px; /* Ajusta según necesites */
+}
+
+.typing-container {
+    text-align: left; /* O center si prefieres */
+    line-height: 1.5; /* Espacio entre líneas si el texto es multilinea */
+}
+
+#auto-type {
+    font-family: 'MiFuentePersonalizada', 'Open Sans', sans-serif;
+    font-size: 60px; /* Tamaño del texto que se escribe */
+    font-weight: 600; /* Grosor de la fuente */
+    /* color: #ffffff; Color del texto, si no lo hereda bien */
+}
+
+.typed-cursor {
+    font-size: 40px; /* Tamaño del cursor */
+    color: #000000; /* Color del cursor, ajusta al color de tu texto principal */
+}
+
+.nombre {
+    color: white; /* Color específico para el nombre */
+}
+
+#habilidades {
+    background-color: #4071f4; /* Color de fondo para la sección de habilidades */
+    position: relative; /* Para el pseudo-elemento de nubes */
+}
+
+#habilidades::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%; /* Ancho mayor para la animación de scroll */
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 15% 25%, white 40px, transparent 41px),
+        radial-gradient(circle at 20% 23%, white 50px, transparent 51px),
+        radial-gradient(circle at 25% 25%, white 40px, transparent 41px),
+        radial-gradient(circle at 55% 65%, white 45px, transparent 46px),
+        radial-gradient(circle at 60% 63%, white 60px, transparent 61px),
+        radial-gradient(circle at 65% 65%, white 45px, transparent 46px),
+        radial-gradient(circle at 80% 40%, white 35px, transparent 36px),
+        radial-gradient(circle at 85% 38%, white 50px, transparent 51px),
+        radial-gradient(circle at 90% 40%, white 35px, transparent 36px);
+    background-repeat: repeat-x; /* Repetir horizontalmente */
+    background-size: 50% auto; /* Tamaño de cada patrón de nubes */
+    animation: moveClouds 45s linear infinite;
+    z-index: 0; /* Detrás del contenido de la sección */
+    opacity: 0.6; /* Opacidad de las nubes */
+}
+
+@keyframes moveClouds {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); } /* Mueve el fondo hacia la izquierda */
+}
+
+.portfolio-container {
+    display: flex;
+    flex-wrap: wrap; /* Para que los items se ajusten en varias líneas si no caben */
+    justify-content: center; /* Centra los items horizontalmente */
+    align-items: center; /* Centra los items verticalmente */
+    gap: 40px; /* Espacio entre las burbujas */
+    padding: 20px; /* Espacio alrededor del contenedor */
+    height: 100%; /* Ocupa toda la altura de la sección */
+    position: relative; /* Para que el z-index funcione */
+    z-index: 1; /* Encima del pseudo-elemento de nubes */
+}
+
+.skill-item {
+    position: relative; /* Para el posicionamiento del modal */
+    width: 130px; /* Tamaño de la burbuja */
+    height: 130px;
+}
+
+.skill-checkbox {
+    display: none; /* Ocultamos el checkbox real */
+}
+
+.bubble {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; /* Forma de burbuja */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.3s ease;
+    position: absolute; /* Para superponer sobre el checkbox si fuera visible */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Sombra sutil */
+    animation: float 6s ease-in-out infinite; /* Animación de flotar */
+}
+
+.bubble img {
+    max-width: 60%;  /* Ajusta el tamaño del logo dentro de la burbuja */
+    max-height: 60%;
+    object-fit: contain;
+    pointer-events: none; /* Para que el clic pase al label/bubble */
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); /* Sombra para el logo */
+}
+
+/* Colores específicos para cada burbuja */
+.html-bubble { background-color: rgba(227, 79, 38, 0.7); } /* Naranja HTML5 con opacidad */
+.css-bubble { background-color: rgba(21, 114, 182, 0.7); }  /* Azul CSS3 con opacidad */
+.js-bubble { background-color: rgba(247, 223, 30, 0.7); }   /* Amarillo JS con opacidad */
+.python-bubble { background-color: rgba(52, 113, 154, 0.7); } /* Azul Python con opacidad */
+
+/* Ajuste específico para el logo de JS si es necesario por su color */
+.js-bubble img {
+    filter: brightness(0.9) contrast(1.1) drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+
+
+/* Retrasos en la animación para un efecto más natural */
+.skill-item:nth-child(1) .bubble { animation-delay: 0s; }
+.skill-item:nth-child(2) .bubble { animation-delay: -1.5s; }
+.skill-item:nth-child(3) .bubble { animation-delay: -3s; }
+.skill-item:nth-child(4) .bubble { animation-delay: -0.8s; } /* Si tienes una cuarta habilidad */
+
+
+@keyframes float {
+    0% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-12px) scale(1.03); } /* Sube y agranda un poco */
+    100% { transform: translateY(0px) scale(1); }
+}
+
+.skill-modal {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.7); /* Empieza pequeño y centrado */
+    transition: opacity 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275), visibility 0s 0.35s;
+    position: fixed; /* Para superponerse a todo */
+    top: 50%;
+    left: 50%;
+    transform-origin: center center; /* La transformación ocurre desde el centro */
+    width: 85vw; /* Ancho relativo a la ventana */
+    max-width: 420px; /* Ancho máximo */
+    background-color: rgba(250, 250, 255, 0.88); /* Fondo glassmorphism */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px); /* Para Safari */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    z-index: 100; /* Encima de las burbujas */
+    color: #2c3e50; /* Color de texto oscuro para contraste */
+}
+
+/* BLOBS GLOBALES */
+.global-blobs {
+    position: fixed; /* Para que estén fijos en la pantalla */
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    pointer-events: none; /* Para que no interfieran con clics */
+    z-index: 0; /* Detrás de todo el contenido interactivo */
+}
+.global-blob {
+    position: absolute;
+    opacity: 0.7; /* Ajusta la opacidad como necesites */
+    filter: blur(0.5px); /* Un ligero desenfoque */
+    pointer-events: none; /* No deben ser clickeables */
+    user-select: none; /* No deben ser seleccionables */
+}
+.global-blob-1 { /* Blob de fondo más grande */
+    top: 60%; right: -65%; width: 125vw; height: 125vw;
+    z-index: 1; /* Detrás del blob 2 */
+}
+.global-blob-2 { /* Blob de 'Me' más pequeño y encima */
+    top: 40%; right: -40%; width: 150vw; height: 150vw; /* Ajusta el tamaño y posición */
+    z-index: 2;
+}
+
+
+.skill-modal h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #1a252f; /* Un color de título más oscuro */
+    font-family: 'MiFuentePersonalizada', 'Ubuntu', sans-serif; /* Fuente más distintiva para títulos */
+    font-size: 1.6em;
+}
+
+.skill-modal p {
+    font-size: 0.95em;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.skill-modal ul {
+    list-style: none; /* Quitar los puntos por defecto */
+    padding-left: 0;
+    font-size: 0.9em;
+}
+
+.skill-modal li {
+    margin-bottom: 8px;
+    padding-left: 20px; /* Espacio para el checkmark personalizado */
+    position: relative;
+}
+
+.skill-modal li::before {
+    content: '✓'; /* Checkmark personalizado */
+    position: absolute;
+    left: 0;
+    color: #3498db; /* Color del checkmark */
+    font-weight: bold;
+}
+
+.close-modal-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #7f8c8d; /* Color del botón de cerrar */
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    font-family: sans-serif; /* Para que la 'x' se vea bien */
+    line-height: 1; /* Para alinear bien la 'x' */
+}
+
+.close-modal-btn:hover {
+    color: #e74c3c; /* Color al pasar el mouse (rojo) */
+    transform: scale(1.1); /* Agranda un poco al pasar el mouse */
+}
+
+
+/* Cuando el checkbox está marcado, la burbuja desaparece y el modal aparece */
+.skill-checkbox:checked ~ .bubble {
+    transform: scale(0.1) translateY(-30px); /* Encoge y sube */
+    opacity: 0;
+    pointer-events: none; /* No interactuable cuando está oculta */
+    animation-play-state: paused; /* Pausa la animación de flotar */
+}
+
+.skill-checkbox:checked ~ .skill-modal {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1); /* Tamaño normal y centrado */
+    transition-delay: 0s, 0s, 0s; /* Sin retraso al aparecer */
+}
+
+/* Estilo para deshabilitar otras burbujas cuando una está activa */
+.skill-item.disabled {
+    pointer-events: none; /* No se puede hacer clic */
+    opacity: 0.5; /* Se ven más tenues */
+}
+
+/* ABOUT ME SECTION */
+.about-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4071f4; /* Mismo color que la sección de inicio */
+    overflow: hidden; /* Para que los blobs no se salgan */
+}
+.about-bg { /* Si quieres un fondo específico para esta sección además del color */
+    display: none; /* O configúralo como necesites */
+}
+.about-blob {
+    position: absolute;
+    width: 600px; /* Tamaño de los blobs */
+    height: 600px;
+    z-index: 2; /* Encima del fondo, debajo de la tarjeta */
+    pointer-events: none; /* No deben ser clickeables */
+}
+.about-blob.topleft { 
+    top: 180px; 
+    left: -250px; 
+    /* background-image: url('./Assets/blob-variant-1.png');  Si usas blobs diferentes */
+}
+
+.about-blob.topright { 
+    top: -32px; 
+    right: -275px; 
+    /* background-image: url('./Assets/blob-variant-2.png'); */
+}
+
+.about-card {
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3; 
+    background: rgba(128, 128, 128, 0.3); 
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.1);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 48px 38px 38px 38px; /* Más grande */
+    min-width: 600px; /* Más ancho */
+    max-width: 900px; /* Más ancho */
+    width: 90%; /* Más grande */
+    max-height: 85vh; /* Más alto */
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    overflow: hidden; 
+    margin-left: 0;
+    margin-right: 40px; /* Desplaza el formulario hacia la izquierda */
+}
+.about-title {
+    font-family: 'MiFuentePersonalizada', 'Open Sans', sans-serif;
+    font-size: 64px; 
+    font-weight: 700;
+    color: white; 
+    margin-bottom: 18px;
+    text-align: center;
+}
+.about-desc {
+    color: white; 
+    font-size: 1.15em; 
+    text-align: left; 
+    margin-top: 10px;
+    overflow-y: auto; 
+    padding-right: 10px; 
+    width: 100%; /* Para que el texto ocupe el ancho de la tarjeta */
+}
+
+@media (max-width: 1200px) { /* Ajuste para pantallas medianas a grandes */
+    .about-card {
+        min-width: 400px;
+        max-width: 95vw;
+        width: 95vw;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-card { 
+        min-width: 0; /* Restablecer para pantallas pequeñas */
+        max-width: 98vw; /* Restablecer para pantallas pequeñas */
+        width: 98vw; /* Asegurar que use el viewport width */
+        padding: 24px 6vw;
+    }
+    .about-title { font-size: 28px; } 
+    .about-blob { width: 220px; height: 220px; } 
+    .about-blob.topleft,
+    .about-blob.topright { 
+        top: -110px; 
+        left: -110px; 
+        right: -110px; 
+    } 
+    #auto-type {
+        font-size: 28px; 
+    }
+    
+    .menu {
+        width: 90%; 
+    }
+    
+    .portfolio-container {
+        gap: 30px; 
+    }
+    
+    .skill-item {
+        width: 100px; 
+        height: 100px;
+    }
+}
+
+
+/* Estilo para la barra de desplazamiento */
+.about-desc::-webkit-scrollbar {
+    width: 8px;
+}
+
+.about-desc::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Color del track de la barra */
+    border-radius: 4px;
+}
+
+.about-desc::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2); /* Color del thumb de la barra */
+    border-radius: 4px;
+}
+
+.about-desc::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3); /* Color del thumb al pasar el mouse */
+}
+
+/* Estilo para el texto dentro de about-desc */
+#about-desc-text {
+    white-space: pre-line; /* Respeta saltos de línea y espacios */
+    display: block; /* Asegura que ocupe el ancho disponible */
+    line-height: 1.6; /* Espaciado entre líneas */
+}
+
+/* Desactivar scroll de sección cuando se está scrolleando about-desc */
+.about-desc:hover + .section, /* Esto es conceptual, JS manejará el bloqueo de scroll */
+.about-desc:focus + .section {
+    overflow: hidden; /* No funcionará así directamente, se necesita JS */
+}
+
+.background-blob-bottomleft {
+    position: fixed; /* Para que se quede fijo mientras se scrollea */
+    left: -15%; /* Ajusta la posición horizontal */
+    top: 70%;    /* Ajusta la posición vertical */
+    transform: translateY(-50%); /* Centra verticalmente respecto a 'top' */
+    width: 32vw;  /* Ancho relativo a la ventana */
+    height: 32vw; /* Alto relativo a la ventana */
+    /* background-image: url('./Assets/blob-variant-3.png'); Si es un blob diferente */
+    z-index: 1; /* Detrás del contenido principal */
+    pointer-events: none; /* No interactuable */
+}
+
+/* PROYECTOS CARDS Y POPUP */
+.proyectos-lista { /* Si decides usar una lista en vez de slider */
+    display: flex;
+    flex-direction: column; /* O row si es horizontal */
+    gap: 24px;
+    align-items: center;
+    margin-top: 32px;
+}
+.proyecto-card {
+    background: rgba(255,255,255,0.18); /* Fondo glassmorphism para las cards */
+    border-radius: 22px;
+    box-shadow: 0 4px 18px 0 rgba(0,0,0,0.13);
+    padding: 22px 18px;
+    width: 340px; /* Ancho fijo para las cards */
+    max-width: 95vw; /* Máximo en pantallas pequeñas */
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1.5px solid rgba(255,255,255,0.25); /* Borde sutil */
+    color: #222; /* Color de texto oscuro para contraste */
+    font-family: 'Open Sans', sans-serif; /* Fuente legible */
+    text-align: left; /* Alineación del texto de la card */
+}
+.proyecto-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18); /* Sombra más pronunciada al pasar el mouse */
+    transform: scale(1.03); /* Ligeramente más grande al pasar el mouse */
+}
+.proyecto-card .proyecto-desc { /* Estilo específico para la descripción dentro de la card */
+    text-align: center;
+    padding: 0 10px;
+}
+
+.proyecto-nombre {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+.proyecto-desc {
+    font-size: 1em;
+    opacity: 0.8; /* Descripción un poco más tenue */
+}
+.proyecto-popup {
+    display: none; /* Oculto por defecto */
+    position: fixed; /* Superpuesto a todo */
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.35); /* Fondo oscuro semitransparente */
+    z-index: 9999; /* Encima de todo */
+    align-items: center;
+    justify-content: center;
+}
+.proyecto-popup.active {
+    display: flex; /* Visible cuando está activo */
+}
+.proyecto-popup-content {
+    background: rgba(255,255,255,0.95); /* Fondo del popup casi opaco */
+    border-radius: 28px;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+    width: 600px; /* Ancho del popup */
+    max-width: 98vw; /* Máximo en pantallas pequeñas */
+    max-height: 92vh; /* Altura máxima, permite scroll interno */
+    padding: 0 0 18px 0; /* Padding, sin padding superior para la imagen */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* Scroll si el contenido es muy largo */
+    overscroll-behavior: contain; /* Evita que el scroll del popup afecte al body */
+    touch-action: pan-y; /* Permite scroll táctil vertical */
+    position: relative; /* Para el botón de cerrar */
+}
+.proyecto-popup-close {
+    position: absolute;
+    top: 12px; right: 22px;
+    font-size: 2.2em; /* Tamaño del botón de cerrar */
+    color: #333;
+    cursor: pointer;
+    z-index: 2; /* Encima del contenido del popup */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+.proyecto-popup-close:hover {
+    transform: scale(1.2) rotate(90deg); /* Animación al pasar el mouse */
+    color: #e74c3c; /* Color rojo al pasar el mouse */
+}
+.proyecto-popup-img {
+    width: 100%; height: 180px; /* Altura fija para la imagen del proyecto */
+    background: #eaeaea; /* Color de fondo si no hay imagen */
+    border-top-left-radius: 28px; /* Redondeo superior */
+    border-top-right-radius: 28px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: #aaa; /* Color del texto si no hay imagen */
+}
+.proyecto-popup-nombre {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    margin-top: 6px;
+    color: #222;
+    text-align: center;
+}
+.proyecto-popup-descripcion, .proyecto-popup-proposito {
+    width: 90%; /* Ancho del texto dentro del popup */
+    margin-bottom: 12px;
+    color: #222;
+    font-size: 1em;
+    text-align: left; /* Alineación del texto */
+}
+.github-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Espacio entre el icono y el texto */
+    background: #24292e; /* Color de GitHub */
+    color: white;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.github-button:hover {
+    background: #1a1f23; /* Color más oscuro al pasar el mouse */
+}
+
+.github-button i {
+    font-size: 20px; /* Tamaño del icono de GitHub */
+}
+
+@media (max-width: 500px) {
+    .proyecto-popup-content {
+        width: 99vw; /* Popup ocupa casi todo el ancho en móviles muy pequeños */
+        border-radius: 0; /* Sin redondeo en móviles muy pequeños */
+        max-height: 100vh; /* Puede ocupar toda la altura */
+    }
+}
+
+/* SLIDER PROYECTOS */
+.slider-proyectos-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px; /* Ancho máximo del slider y flechas */
+    margin: 0 auto; /* Centrar el wrapper */
+    position: relative; /* Para posicionar las flechas si es necesario */
+    gap: 12px; /* Espacio entre flechas y slider */
+}
+.slider-arrow {
+    background: #000; /* Fondo de las flechas */
+    border: none;
+    border-radius: 8px;
+    width: 44px;
+    height: 44px;
+    color: #fff; /* Color del icono de la flecha */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    opacity: 1;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, opacity 0.2s;
+    z-index: 2; /* Encima de las cards */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Resetear padding si el navegador añade alguno */
+}
+.slider-arrow:disabled {
+    background: #000; /* Mantener el fondo oscuro */
+    opacity: 0.4; /* Más transparente cuando está deshabilitado */
+    color: #fff; /* Mantener el color del icono */
+    cursor: not-allowed;
+}
+.slider-arrow:hover:not(:disabled),
+.slider-arrow:active:not(:disabled) {
+    background: #fff; /* Fondo blanco al pasar el mouse/activo */
+    color: #000; /* Icono negro al pasar el mouse/activo */
+    opacity: 1;
+}
+.slider-arrow svg {
+    width: 22px;
+    height: 22px;
+    display: block; /* Para asegurar que el SVG se comporte bien */
+}
+.slider-proyectos {
+    display: flex;
+    flex-direction: row; /* Las cards van en fila */
+    gap: 24px; /* Espacio entre cards */
+    overflow: hidden; /* Oculta las cards que no caben */
+    width: 1012px; /* 3 cards * (320px de card + 24px de gap) - 24px del último gap */
+                   /* (3 * 320) + (2 * 24) = 960 + 48 = 1008px. Ajustar si el gap es solo entre cards */
+                   /* Si son 3 cards visibles: 3 * card_width + 2 * gap_width */
+                   /* Ejemplo: 3 * 320px + 2 * 24px = 960px + 48px = 1008px */
+    max-width: 90vw; /* Máximo en pantallas pequeñas */
+    position: relative; /* Para el inner si es necesario */
+}
+.slider-proyectos-inner {
+    display: flex;
+    flex-direction: row;
+    gap: 24px; /* Mismo gap que el contenedor */
+    width: 100%; /* Para que el transform translateX funcione correctamente */
+    /* transition: transform 0.5s ease; No es necesario aquí, se aplica en JS o al contenedor */
+}
+.proyecto-card { /* Estilos ya definidos, pero aseguramos especificidad si es necesario */
+    background: #fff; /* Fondo blanco para las cards */
+    border-radius: 22px;
+    box-shadow: 0 4px 18px 0 rgba(0,0,0,0.13);
+    padding: 22px 18px 12px 18px; /* Ajustar padding inferior */
+    width: 320px; /* Ancho fijo */
+    min-width: 320px; /* Para que no se encojan */
+    max-width: 320px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+    border: 1.5px solid rgba(64,112,244,0.08); /* Borde con color primario tenue */
+    color: #222;
+    font-family: 'Open Sans', sans-serif;
+    text-align: left;
+    flex-shrink: 0; /* Para que no se encojan en el flex container */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar contenido de la card */
+}
+.proyecto-card-img {
+    width: 100%;
+    height: 140px; /* Altura fija para la imagen de la card */
+    background: #eaeaea; /* Fondo si no hay imagen */
+    border-radius: 16px; /* Redondeo para la imagen */
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* Para que la imagen no se salga del redondeo */
+}
+.proyecto-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Para que la imagen cubra el espacio sin deformarse */
+}
+
+.contenido-proyectos h1 {
+    margin-bottom: 48px;  /* Aumentando el espacio entre el título y las cards */
+    font-family: 'MiFuentePersonalizada', 'Open Sans', sans-serif;
+    font-size: 2.5em; /* Tamaño del título de la sección de proyectos */
+    color: white; /* Color del título */
+}
+
+/* Animación del avión */
+.flying-plane {
+    position: absolute;
+    top: 40px; /* Posición vertical del avión */
+    width: 900px; /* Ancho del GIF del avión, ajusta según tu imagen */
+    height: auto;
+    z-index: 10; /* Encima de las nubes pero debajo de los modales */
+    opacity: 0; /* Comienza invisible */
+    /* La animación se controla desde JS para repetirla */
+}
+
+@keyframes flyAcross {
+    0% {
+        left: 100%; /* Comienza fuera de la pantalla a la derecha */
+        opacity: 0;
+    }
+    25% { /* Aparece y vuela hacia la izquierda */
+        left: 100%; /* Mantenemos en el borde para que entre suave */
+        opacity: 1;
+    }
+    75% { /* Casi ha cruzado la pantalla */
+        left: -1200px; /* Ajusta este valor para que salga completamente por la izquierda (ancho del avión + un poco más) */
+        opacity: 1;
+    }
+    100% { /* Desaparece fuera de la pantalla a la izquierda */
+        left: -1200px;
+        opacity: 0;
+    }
+}
+
+#contacto {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4071f4;
+    padding: 40px;
+}
+
+.contact-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.contact-logo img {
+    max-width: 300px;
+    height: auto;
+    margin-right: 20px;
+}
+
+/* Corrected styles for the contact section logo */
+.contact-logo {
+    width: 100px; /* Adjusted size for smaller logo */
+    height: auto;
+    display: block;
+    margin: 15 auto; /* Centers the logo horizontally */
+    position: relative;
+    left: 10%; /* Slightly moved to the right */
+    top: 35%; /* Moved slightly upwards */
+    transform: translateY(-50%); /* Ensures perfect vertical centering */
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin-left: 0;
+    margin-right: 40px; /* Desplaza el formulario hacia la izquierda */
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-form h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.contact-form label {
+    font-size: 16px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.contact-form button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+    background-color: #4071f4;
+}

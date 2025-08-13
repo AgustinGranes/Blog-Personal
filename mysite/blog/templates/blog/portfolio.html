@@ -1,24 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Blog</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio de Agustín</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Ubuntu:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blog/style.css' %}">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-        body {
+        /* ESTILOS DEL BLOG PEGADOS AQUÍ PARA UN SOLO ARCHIVO */
+        #blog {
             font-family: 'Segoe UI', Arial, sans-serif;
             background: #4071f4;
-            min-height: 100vh;
-            width: 100%;
-        }
-        .container {
-            width: 100%;
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -40,7 +34,7 @@
             position: relative;
             box-sizing: border-box;
         }
-        h1 {
+        #blog h1 {
             text-align: center;
             font-size: clamp(1.8rem, 4vw, 2.5rem);
             margin-bottom: 32px;
@@ -400,185 +394,204 @@
             margin-bottom: 10px;
             font-size: clamp(13px, 2.2vw, 14px);
         }
-
-        /* Responsive breakpoints */
-        @media (max-width: 1024px) {
-            .main-card {
-                padding: 24px;
-            }
-            .slide {
-                height: 300px;
-                min-width: 260px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            .main-card {
-                padding: 20px;
-                border-radius: 12px;
-                min-height: 50vh;
-            }
-            .slider {
-                margin: 0 30px;
-            }
-            .slider-btn {
-                width: 40px;
-                height: 40px;
-            }
-            .slider-btn svg {
-                width: 28px;
-                height: 28px;
-            }
-            .slider-btn.left { left: -15px; }
-            .slider-btn.right { right: -15px; }
-            .slide {
-                width: calc(100% - 12px);
-                min-width: 240px;
-                height: 280px;
-            }
-            .slides {
-                gap: 16px;
-            }
-            .slide-content {
-                padding: 12px 16px 10px 16px;
-            }
-            .slide-text {
-                -webkit-line-clamp: 5;
-                line-clamp: 5;
-            }
-            .popup-content {
-                padding: 20px 16px;
-            }
-            .comments-section {
-                padding: 16px;
-                margin-top: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 8px;
-            }
-            .main-card {
-                padding: 16px;
-                border-radius: 10px;
-            }
-            .slider {
-                margin: 0 25px;
-            }
-            .slider-btn {
-                width: 36px;
-                height: 36px;
-            }
-            .slider-btn svg {
-                width: 24px;
-                height: 24px;
-            }
-            .slider-btn.left { left: -12px; }
-            .slider-btn.right { right: -12px; }
-            .slide {
-                width: 100%;
-                min-width: 200px;
-                height: 260px;
-            }
-            .slides {
-                gap: 12px;
-            }
-            .slide-content {
-                padding: 10px 14px 8px 14px;
-            }
-            .slide-text {
-                -webkit-line-clamp: 4;
-                line-clamp: 4;
-            }
-            .popup {
-                border-radius: 12px;
-                max-height: 95vh;
-            }
-            .popup-content {
-                padding: 16px 12px;
-            }
-            .popup img {
-                max-height: 200px;
-            }
-            .comments-section {
-                padding: 12px;
-            }
-            .comment-form {
-                padding: 12px;
-            }
-            .comment {
-                padding: 10px;
-            }
-            .comment-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-            }
-        }
-
-        @media (max-width: 320px) {
-            .slide {
-                min-width: 180px;
-                height: 240px;
-            }
-            .slide-text {
-                -webkit-line-clamp: 3;
-                line-clamp: 3;
-            }
-            .popup img {
-                max-height: 150px;
-            }
-        }
-
-        /* Landscape orientation on mobile */
-        @media (max-height: 500px) and (orientation: landscape) {
-            .container {
-                padding: 5px;
-            }
-            .main-card {
-                padding: 12px;
-                min-height: auto;
-            }
-            h1 {
-                margin-bottom: 16px;
-            }
-            .slide {
-                height: 200px;
-            }
-            .popup {
-                max-height: 95vh;
-            }
-        }
-
-        /* Touch improvements */
-        @media (pointer: coarse) {
-            .slider-btn {
-                min-width: 44px;
-                min-height: 44px;
-            }
-            .comment-submit {
-                min-height: 48px;
-                padding: 12px 24px;
-            }
-            .popup-close {
-                min-width: 48px;
-                min-height: 48px;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <div class="global-blobs">
+        <img src="{% static 'blog/Assets/blob.png' %}" class="global-blob global-blob-1" alt="Blob 1">
+        <img src="{% static 'blog/Assets/Me.png' %}" class="global-blob global-blob-2" alt="Blob 2">
+    </div>
+
+    <nav class="menu">
+        <div class="logo-space">
+            <img src="{% static 'blog/Assets/Logo - Sin Fondo.png' %}" alt="Logo">
+        </div>
+        <div class="social-icons">
+            <a href="https://github.com/AgustinGranes/Portfolio" target="_blank">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="mailto:agustingranes@gmail.com">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </nav>
+
+    <nav class="dot-navigation">
+        <ul>
+            <li><a href="#inicio" class="active" data-section="0"></a></li>
+            <li><a href="#" data-section="1"></a></li>
+            <li><a href="#habilidades" data-section="2"></a></li>
+            <li><a href="#proyectos" data-section="3"></a></li>
+            <li><a href="#blog" data-section="4"></a></li>
+            <li><a href="#contacto" data-section="5"></a></li>
+        </ul>
+    </nav>
+
+    <section id="inicio" class="section">
+        <div class="background-image"></div>
+        <div class="foreground-image"></div>
+        <img src="{% static 'blog/Assets/blob.png' %}" class="background-blob-bottomleft" alt="Blob Bottom Left">
+        <div class="container">
+            <div class="typing-container">
+                <span id="auto-type"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section section">
+        <div class="about-bg"></div>
+        <img src="{% static 'blog/Assets/blob.png' %}" class="about-blob topleft" alt="Blob Top Left">
+        <img src="{% static 'blog/Assets/blob.png' %}" class="about-blob topright" alt="Blob Top Right">
+        <img src="{% static 'blog/Assets/Logo - Sin Fondo.png' %}" class="about-logo-bg" alt="Logo Fondo" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:2; width:70%; max-width:350px; pointer-events:none; filter:blur(0.5px);">
+        <div class="about-card">
+            <div class="about-title">
+                <span id="about-typed"></span>
+            </div>
+            <div class="about-desc">
+                <span id="about-desc-text">Sobre mí:
+Joven programador y estudiante de Computación en el Inst. Ind. Luis A. Huergo, con un fuerte interés en la creación de soluciones tecnológicas completas, desde el diseño visual hasta la lógica del servidor.
+
+Lenguajes y Tecnologías:
+Frontend: HTML, CSS
+Backend: Python
+Diseño: UI/UX
+
+Áreas de Interés y Estudio:
+• Desarrollo de Software
+• Diseño de Interfaces (UI)
+• Ciberseguridad
+• Bases de Datos
+• Hardware y Arquitectura
+• Lógica Computacional
+
+Mi Filosofía:
+Un desarrollador en constante evolución, dedicado a nunca dejar de aprender y perfeccionar mis habilidades para enfrentar los desafíos del mañana. Aparte de todo, me gusta mucho trabajar en grupo, perfeccionar lo que hago al maximo y aprender en el proceso.</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="habilidades" class="section">
+        <img src="{% static 'blog/Assets/avion.gif' %}" alt="Avión volando" class="flying-plane">
+        <div class="portfolio-container">
+            <div class="skill-item">
+                <input type="checkbox" id="skill-html" class="skill-checkbox">
+                <label for="skill-html" class="bubble html-bubble">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML5 Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-html" class="close-modal-btn">&times;</label>
+                    <h2>HTML5</h2>
+                    <p>Lenguaje base para la creación de sitios web.</p>
+                    <ul>
+                        <li>Experiencia con formularios y validaciones</li>
+                        <li>Conocimiento en buenas practicas</li>
+                        <li>Dominio de etiquetas semánticas</li>
+                        <li>Integración de multimedia y APIs</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <input type="checkbox" id="skill-css" class="skill-checkbox">
+                <label for="skill-css" class="bubble css-bubble">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg" alt="CSS3 Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-css" class="close-modal-btn">&times;</label>
+                    <h2>CSS3</h2>
+                    <p>Estilización y diseño visual de interfaces web.</p>
+                    <ul>
+                        <li>Experiencia con Flexbox y Grid</li>
+                        <li>Diseño responsivo y mobile-first</li>
+                        <li>Animaciones y transiciones</li>
+                        <li>Personalización de componentes</li>
+                        <li>Sliders, secciones y diseños</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="skill-item">
+                <input type="checkbox" id="skill-python" class="skill-checkbox">
+                <label for="skill-python" class="bubble python-bubble">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-python" class="close-modal-btn">&times;</label>
+                    <h2>Python</h2>
+                    <p>Desarrollo de aplicaciones, juegos y manejo de datos</p>
+                    <ul>
+                        <li>Creación de juegos con PyGame</li>
+                        <li>Manejo de archivos JSON</li>
+                        <li>Programación orientada a objetos</li>
+                        <li>Manejo de datos</li>
+                        <li>Facil adaptacion a nuevas librerias</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proyectos" class="section">
+        <div class="contenido-proyectos">
+            <h1>Proyectos</h1>
+            <div class="slider-proyectos-wrapper">
+                <button class="slider-arrow left" id="slider-prev" disabled>
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 4L8 11L14 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="slider-proyectos" id="slider-proyectos">
+                  <div class="slider-proyectos-inner" id="slider-proyectos-inner">
+                    <div class="proyecto-card" data-proyecto="1">
+                        <div class="proyecto-card-img">
+                            <img src="{% static 'blog/Assets/Preguntados.png' %}" alt="Preguntados">
+                        </div>
+                        <div class="proyecto-nombre">Preguntados</div>
+                        <div class="proyecto-desc">Hecho con 15 Años en Python/PyGame.</div>
+                    </div>
+                    <div class="proyecto-card" data-proyecto="2">
+                        <div class="proyecto-card-img">
+                            <img src="{% static 'blog/Assets/Space Invaders.png' %}" alt="Space Invaders">
+                        </div>
+                        <div class="proyecto-nombre">Space Invaders</div>
+                        <div class="proyecto-desc">Hecho con 15 Años en Python/PyGame</div>
+                    </div>
+                  </div>
+                </div>
+                <button class="slider-arrow right" id="slider-next">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 4L14 11L8 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="proyecto-popup" id="proyecto-popup">
+            <div class="proyecto-popup-content">
+                <span class="proyecto-popup-close">&times;</span>
+                <div class="proyecto-popup-img"></div>
+                <div class="proyecto-popup-nombre">Nombre del Proyecto</div>
+                <div class="proyecto-popup-descripcion"></div>
+                <div class="proyecto-popup-proposito"></div>
+                <a href="#" class="github-button" id="github-repo-link" target="_blank" style="display:none;">
+                    <i class="fab fa-github"></i>
+                    Ver en GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DEL BLOG INTEGRADA -->
+    <section id="blog" class="section">
         <div class="main-card">
             <h1>Blog Personal</h1>
             <div class="slider-outer">
                 <div class="slider-wrapper">
                     {% if posts %}
-                    <button class="slider-btn left" id="sliderLeft" onclick="moveSlide(-1)">
+                    <button class="slider-btn left" id="sliderLeft">
                         <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#668df6" opacity="0.7"/><polyline points="28,14 18,24 28,34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                     <div class="slider">
@@ -605,7 +618,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="slider-btn right" id="sliderRight" onclick="moveSlide(1)">
+                    <button class="slider-btn right" id="sliderRight">
                         <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#668df6" opacity="0.7"/><polyline points="20,14 30,24 20,34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </button>
                 {% else %}
@@ -618,30 +631,52 @@
         <div class="popup-bg" id="popupBg">
             <div class="popup" id="popupContent">
                 <button class="popup-close" onclick="closePopup()">&times;</button>
-                <div class="popup-content" id="popupMainContent">
-                    </div>
+                <div class="popup-content" id="popupMainContent"></div>
             </div>
         </div>
-    </div>
+    </section>
 
+    <section id="contacto" class="section">
+        <div class="contact-container">
+            <div class="contact-logo">
+                <img src="{% static 'blog/Assets/Logo - Sin Fondo.png' %}" alt="Logo">
+            </div>
+            <div class="contact-card">
+                <form class="contact-form" action="https://formsubmit.co/agustingranes@gmail.com" method="POST">
+                    <h2>Contacto</h2>
+                    <label for="contact-name">Nombre:</label>
+                    <input type="text" id="contact-name" name="name" required>
+                    <label for="contact-email">Email:</label>
+                    <input type="email" id="contact-email" name="email" required>
+                    <label for="contact-reason">Razón del contacto:</label>
+                    <textarea id="contact-reason" name="message" rows="4" required></textarea>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="{% static 'blog/script.js' %}"></script>
     <script>
+        // SCRIPT DEL BLOG PEGADO AQUÍ
         document.addEventListener('DOMContentLoaded', function() {
             const slides = document.getElementById('slides');
-            if (!slides) return;
+            if (!slides || slides.children.length === 0) return;
 
             let totalSlides = slides.children.length;
             let currentSlide = 0;
             let postsToShow = 1;
-            let currentPostId = null;
 
             const leftBtn = document.getElementById('sliderLeft');
             const rightBtn = document.getElementById('sliderRight');
-            const slider = document.querySelector('.slider');
+            const slider = document.querySelector('#blog .slider');
 
             function updateSlider() {
-                const slideWidth = slides.children[0].offsetWidth + 24; // Ancho del slide + gap
+                if (slides.children.length === 0) return;
+                const slideWidth = slides.children[0].offsetWidth + 24;
                 const containerWidth = slider.offsetWidth;
-                postsToShow = Math.floor(containerWidth / slideWidth);
+                postsToShow = Math.max(1, Math.floor(containerWidth / slideWidth));
 
                 if (totalSlides > postsToShow) {
                     leftBtn.style.display = 'block';
@@ -667,17 +702,17 @@
             }
 
             function updateSliderBtns() {
-                if (leftBtn) leftBtn.classList.toggle('active', currentSlide > 0);
-                if (rightBtn) rightBtn.classList.toggle('active', currentSlide < totalSlides - postsToShow);
+                if (leftBtn) leftBtn.disabled = currentSlide === 0;
+                if (rightBtn) rightBtn.disabled = currentSlide >= totalSlides - postsToShow;
             }
+            
+            leftBtn.addEventListener('click', () => moveSlide(-1));
+            rightBtn.addEventListener('click', () => moveSlide(1));
             
             window.addEventListener('resize', updateSlider);
             updateSlider();
-
-            window.moveSlide = moveSlide;
         });
 
-        // Posts data
         const postsData = JSON.parse(`[
             {% for post in posts %}
                 {
@@ -695,8 +730,6 @@
             const post = postsData[idx];
             if (!post) return;
             
-            currentPostId = post.id;
-            
             let html = '';
             if (post.cover) {
                 html += `<img src="${post.cover}" alt="Portada" onerror="this.src='https://via.placeholder.com/600x300/e0e0e0/999?text=Imagen+no+disponible'">`;
@@ -704,43 +737,34 @@
             html += `<h2>${post.title}</h2>`;
             html += `<div style='color:#444;font-size:1.1em;margin-bottom:12px;line-height:1.6;word-wrap:break-word;'>${post.content}</div>`;
             html += `<p style='color:#666;font-size:0.95em;'><i>${post.pub_date}</i></p>`;
-            
-            // Agregar sección de comentarios al final del contenido
-            html += `<div class="comments-section" id="commentsSection">
-                </div>`;
+            html += `<div class="comments-section" id="commentsSection"></div>`;
             
             document.getElementById('popupMainContent').innerHTML = html;
             document.getElementById('popupBg').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+            window.isModalOrPopupOpen = true; // Flag for main script
+            disableBodyScrollGlobally();
             
-            // Cargar comentarios
             loadComments(post.id);
         }
         
         function closePopup() {
             document.getElementById('popupBg').classList.remove('active');
-            document.body.style.overflow = ''; // Restaurar scroll del body
-            currentPostId = null;
+            window.isModalOrPopupOpen = false; // Flag for main script
+            enableBodyScrollGlobally();
         }
         
         function loadComments(postId) {
-            fetch(`/post/${postId}/comments/`)
+            fetch(`/blog/post/${postId}/comments/`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         renderComments(data.comments, postId);
-                    } else {
-                        console.error('Error loading comments:', data.error);
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
                 });
         }
         
         function renderComments(comments, postId) {
             const commentsSection = document.getElementById('commentsSection');
-            
             let html = `
                 <div class="comments-title">Comentarios (${comments.length})</div>
                 <div class="comment-form">
@@ -780,54 +804,31 @@
             const errorDiv = document.getElementById('errorMessage');
             const submitBtn = document.querySelector('.comment-submit');
             
-            // Limpiar errores previos
             errorDiv.style.display = 'none';
-            
             if (!username || !content) {
                 showError('Por favor completa todos los campos');
                 return;
             }
             
-            if (username.length > 100) {
-                showError('El nombre de usuario es muy largo');
-                return;
-            }
-            
-            if (content.length > 1000) {
-                showError('El comentario es muy largo');
-                return;
-            }
-            
-            // Deshabilitar botón mientras se envía
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
             
-            fetch(`/post/${postId}/comment/add/`, {
+            fetch(`/blog/post/${postId}/comment/add/`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: username,
-                    content: content
-                })
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({username: username, content: content})
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Limpiar formulario
                     document.getElementById('usernameInput').value = '';
                     document.getElementById('commentInput').value = '';
-                    // Recargar comentarios
                     loadComments(postId);
                 } else {
                     showError(data.error || 'Error al enviar comentario');
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                showError('Error de conexión');
-            })
+            .catch(error => showError('Error de conexión'))
             .finally(() => {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Comentar';
@@ -846,23 +847,21 @@
             return div.innerHTML;
         }
         
-        // Cerrar popup con ESC
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closePopup();
+            if (e.key === 'Escape' && document.getElementById('popupBg').classList.contains('active')) {
+                closePopup();
+            }
         });
         
-        // Cerrar popup clickeando fuera
         document.getElementById('popupBg').addEventListener('click', function(e) {
             if (e.target === this) {
                 closePopup();
             }
         });
 
-        // Hacemos las funciones globales para que se puedan llamar desde el HTML
         window.openPopup = openPopup;
         window.closePopup = closePopup;
         window.submitComment = submitComment;
-
     </script>
 </body>
 </html>

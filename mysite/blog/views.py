@@ -5,6 +5,14 @@ from django.views.decorators.http import require_POST
 from .models import Post, Project, Comment
 import json
 
+# NUEVA VISTA PARA EL PORTFOLIO UNIFICADO
+def portfolio_view(request):
+    posts = Post.objects.all().order_by('-pub_date')
+    projects = Project.objects.all()
+    # Pasamos los posts al contexto para que portfolio.html pueda usarlos
+    return render(request, 'blog/portfolio.html', {'posts': posts, 'projects': projects})
+
+# La vista original del blog ahora se puede eliminar o dejar si la necesitas para otra cosa
 def home(request):
     posts = Post.objects.all().order_by('-pub_date')
     projects = Project.objects.all()
