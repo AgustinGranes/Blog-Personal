@@ -10,8 +10,9 @@ function enableBodyScrollGlobally() {
     // Only enable scroll if no project popup or skill modal is currently active
     const projectPopupActive = document.querySelector('.proyecto-popup.active');
     const skillModalActive = document.querySelector('.skill-checkbox:checked');
+    const blogPopupActive = document.getElementById('popupBg') && document.getElementById('popupBg').classList.contains('active');
 
-    if (!projectPopupActive && !skillModalActive) {
+    if (!projectPopupActive && !skillModalActive && !blogPopupActive) {
         document.body.style.overflow = ''; // Restore default body overflow
     }
 }
@@ -54,27 +55,22 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.isModalOrPopupOpen) {
             const activeProyectoPopupContent = document.querySelector('.proyecto-popup.active .proyecto-popup-content');
             const activeSkillModal = document.querySelector('.skill-modal[style*="visibility: visible"]');
+            const activeBlogPopupContent = document.querySelector('#popupBg.active #popupMainContent');
 
             let allowModalScroll = false;
-            if (activeProyectoPopupContent && activeProyectoPopupContent.contains(e.target)) {
-                if (activeProyectoPopupContent.scrollHeight > activeProyectoPopupContent.clientHeight) {
-                    allowModalScroll = true;
-                }
-            } else if (activeSkillModal && activeSkillModal.contains(e.target)) {
-                if (activeSkillModal.scrollHeight > activeSkillModal.clientHeight) {
-                    allowModalScroll = true;
-                }
+            if (activeProyectoPopupContent && activeProyectoPopupContent.contains(e.target) && activeProyectoPopupContent.scrollHeight > activeProyectoPopupContent.clientHeight) {
+                allowModalScroll = true;
+            } else if (activeSkillModal && activeSkillModal.contains(e.target) && activeSkillModal.scrollHeight > activeSkillModal.clientHeight) {
+                allowModalScroll = true;
+            } else if (activeBlogPopupContent && activeBlogPopupContent.contains(e.target) && activeBlogPopupContent.scrollHeight > activeBlogPopupContent.clientHeight) {
+                allowModalScroll = true;
             }
 
             if (allowModalScroll) {
-                // If over a scrollable part of an open modal, do nothing here.
-                // Let the event bubble and the browser handle modal's own scroll.
-                return; // Must return to prevent calling goToSection logic below
+                return;
             } else {
-                // If over a non-scrollable part of modal, or the backdrop,
-                // prevent default wheel action and do not proceed to goToSection.
                 e.preventDefault();
-                return; // Must return
+                return;
             }
         }
 
@@ -95,17 +91,19 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === "Escape") {
                 const activeProyectoPopup = document.querySelector('.proyecto-popup.active');
                 const activeSkillCheckbox = document.querySelector('.skill-checkbox:checked');
+                const blogPopup = document.getElementById('popupBg');
+
                 if (activeProyectoPopup) {
-                    // Simulate click on its close button
                     const closeBtn = activeProyectoPopup.querySelector('.proyecto-popup-close');
                     if(closeBtn) closeBtn.click();
                 } else if (activeSkillCheckbox) {
-                    // Simulate click on the label that acts as close button for skill modal
                     const closeLabel = document.querySelector(`label.close-modal-btn[for="${activeSkillCheckbox.id}"]`);
                     if(closeLabel) closeLabel.click();
+                } else if (blogPopup && blogPopup.classList.contains('active')) {
+                    closePopup(); // Blog popup close function
                 }
             }
-            return; // Prevent section changes if any modal/popup is open
+            return;
         }
 
         if (isScrolling) return;
@@ -194,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         item.classList.add('disabled');
                     }
                 });
-            } else { // Modal is being closed (checkbox unchecked by clicking the 'X' label or bubble)
+            } else { // Modal is being closed
                 window.isModalOrPopupOpen = false;
                 enableBodyScrollGlobally();
 
@@ -209,33 +207,25 @@ document.addEventListener('DOMContentLoaded', function() {
     goToSection(0); // Ensure initial section setup
 
     const contactForm = document.querySelector('.contact-form');
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const name = document.getElementById('contact-name').value;
-        const email = document.getElementById('contact-email').value;
-        const reason = document.getElementById('contact-reason').value;
-
-        console.log('Form submitted:', { name, email, reason });
-
-        alert('Gracias por tu mensaje, ' + name + '! Nos pondremos en contacto contigo pronto.');
-
-        contactForm.reset();
-    });
+    if(contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            // The form will submit to formsubmit.co, so we don't prevent default
+        });
+    }
 });
 
-// Datos de los proyectos (sin cambios)
+// Datos de los proyectos
 const proyectos = {
     1: {
         nombre: 'Preguntados',
-        imagen: './Assets/Preguntados.png',
+        imagen: "{% static 'blog/Assets/Preguntados.png' %}",
         descripcion: 'Lenguaje: Python/PyGame\n\nAño: 2024\n\nDescripcion: Proyecto realizado para 3er año de Nivel Secundario, en el cual se nos pide utilizar la libreria PyGame para realizar un juego que luego fue expuesto en la ExpoHuergo 2025. El juego fue utilizado satisfoctoriamente por el publico, y estuvo bien diseñado para haber sido hecho por un adolescente y encima sin experiencia en la libreria que se estaba utilizando.\n\nDificultades: El diseño de la aplicacion fue dificultosa al principio, ya que en su momento aun no contaba con el conocimiento suficiente como para realizar una aplicacion con una buena interfaz grafica. Por otro lado, aprender a usar los comandos y las funciones de una nueva libreria como lo era PyGame fueron otra de las dificultades que se presentaron.\n\nCosas a destacar: Poder haber empleado un sistema de Backend por primera vez, utilizar PyGame por primera vez, trabajar con el manejo de datos, el trabajo en equipo, entre otras cosas, hicieron que quiera destacar este proyecto (el primero de gran importancia en mi carrera como estudiante y como profesional.',
         proposito: 'Este proyecto sirvió como una introducción práctica al desarrollo de juegos y a la gestión de datos en una aplicación interactiva.',
         github: 'https://github.com/AgustinGranes/Portfolio/tree/main/Personal/Preguntados%20(Juego%20-%202024)'
     },
     2: {
         nombre: 'Space Invaders',
-        imagen: './Assets/Space Invaders.png',
+        imagen: "{% static 'blog/Assets/Space Invaders.png' %}",
         descripcion: 'Lenguaje: Python/PyGame\n\nAño: 2025\n\nDescripcion: Proyecto realizado para 4to año de Nivel Secundario, en el cual se nos pide utilizar la libreria PyGame para realizar un juego que seria nuestra nota de fin de cuatrimestre. El juego fue calificado por el maestro en base no solo a su diseño, sino a su funcionalidad tambien. El juego, fue aprobado.\n\nDificultades: Simular el juego a la perfeccion fue dificil, la idea no era sencilla de replicar. Trabajar con varios archivos complico la tarea, pero el resultado fue satisfactorio. Devuelta, se hizo dificultoso trabajar con la libreria PyGame\n\nCosas a destacar: Poder recrear el juego tal y como era originalmente, que la funcionalidad y el uso de JSON haya sido satisfactoria, y poder haber realizado mi primer proyecto 100% individual, y haberlo hecho satisfactoriamente, es un gran logro.',
         proposito: 'El objetivo fue replicar la mecánica clásica de Space Invaders, enfocándose en la lógica del juego y la interacción del usuario.',
         github: 'https://github.com/AgustinGranes/Portfolio/tree/main/Personal/Space%20Invaders%20(Juego%20-%202025)'
@@ -268,7 +258,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 popupImgContainer.innerHTML = '';
                 if (proyectoData.imagen) {
                     const img = document.createElement('img');
-                    img.src = proyectoData.imagen;
+                    // The image path is now a template literal that needs to be resolved by Django.
+                    // This JS runs client-side, so we need to get the path from the HTML element itself.
+                    const cardImgSrc = card.querySelector('.proyecto-card-img img').src;
+                    img.src = cardImgSrc;
                     img.alt = proyectoData.nombre;
                     img.style.width = '100%';
                     img.style.height = '100%';
@@ -309,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// SLIDER PROYECTOS (sin cambios)
+// SLIDER PROYECTOS
 document.addEventListener('DOMContentLoaded', function() {
     const sliderInner = document.getElementById('slider-proyectos-inner');
     const prevBtn = document.getElementById('slider-prev');
@@ -331,7 +324,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function calculateMaxVisibleAndCardWidth() {
         const sliderVisibleWidth = document.getElementById('slider-proyectos').offsetWidth;
-        // Actualizar cardWidth en caso de que cambie dinámicamente (aunque suele ser fijo por CSS)
         if (cards.length > 0) {
             cardWidth = cards[0].offsetWidth;
         }
@@ -372,10 +364,10 @@ document.addEventListener('DOMContentLoaded', function() {
         resizeTimeoutSlider = setTimeout(updateSlider, 200);
     });
     
-    updateSlider(); // Initial call
+    updateSlider();
 });
 
-// Animación del Avión (sin cambios)
+// Animación del Avión
 function startPlaneAnimation() {
     const plane = document.querySelector('.flying-plane');
     if (!plane) return;
@@ -392,3 +384,204 @@ function startPlaneAnimation() {
 document.addEventListener('DOMContentLoaded', function() {
     startPlaneAnimation();
 });
+
+
+// --- SCRIPT DEL BLOG ---
+document.addEventListener('DOMContentLoaded', function() {
+    const slides = document.getElementById('slides');
+    if (!slides || slides.children.length === 0) return;
+
+    let totalSlides = slides.children.length;
+    let currentSlide = 0;
+    let postsToShow = 1;
+
+    const leftBtn = document.getElementById('sliderLeft');
+    const rightBtn = document.getElementById('sliderRight');
+    const slider = document.querySelector('#blog .slider');
+
+    function updateSlider() {
+        if (slides.children.length === 0) return;
+        const slideWidth = slides.children[0].offsetWidth + 24;
+        const containerWidth = slider.offsetWidth;
+        postsToShow = Math.max(1, Math.floor(containerWidth / slideWidth));
+
+        if (totalSlides > postsToShow) {
+            leftBtn.style.display = 'block';
+            rightBtn.style.display = 'block';
+        } else {
+            leftBtn.style.display = 'none';
+            rightBtn.style.display = 'none';
+        }
+
+        slides.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+        updateSliderBtns();
+    }
+
+    function moveSlide(dir) {
+        currentSlide += dir;
+        if (currentSlide < 0) {
+            currentSlide = 0;
+        }
+        if (currentSlide > totalSlides - postsToShow) {
+            currentSlide = totalSlides - postsToShow;
+        }
+        updateSlider();
+    }
+
+    function updateSliderBtns() {
+        if (leftBtn) leftBtn.disabled = currentSlide === 0;
+        if (rightBtn) rightBtn.disabled = currentSlide >= totalSlides - postsToShow;
+    }
+    
+    leftBtn.addEventListener('click', () => moveSlide(-1));
+    rightBtn.addEventListener('click', () => moveSlide(1));
+    
+    window.addEventListener('resize', updateSlider);
+    updateSlider();
+});
+
+// Los datos de los posts se inicializan desde la plantilla de Django
+let postsData = window.postsData || [];
+
+function openPopup(idx) {
+    if (typeof postsData === 'undefined' || !postsData[idx]) return;
+    
+    const post = postsData[idx];
+    
+    let html = '';
+    if (post.cover) {
+        html += `<img src="${post.cover}" alt="Portada" onerror="this.src='https://via.placeholder.com/600x300/e0e0e0/999?text=Imagen+no+disponible'">`;
+    }
+    html += `<h2>${post.title}</h2>`;
+    html += `<div style='color:#444;font-size:1.1em;margin-bottom:12px;line-height:1.6;word-wrap:break-word;'>${post.content}</div>`;
+    html += `<p style='color:#666;font-size:0.95em;'><i>${post.pub_date}</i></p>`;
+    html += `<div class="comments-section" id="commentsSection"></div>`;
+    
+    document.getElementById('popupMainContent').innerHTML = html;
+    document.getElementById('popupBg').classList.add('active');
+    window.isModalOrPopupOpen = true;
+    disableBodyScrollGlobally();
+    
+    loadComments(post.id);
+}
+
+function closePopup() {
+    document.getElementById('popupBg').classList.remove('active');
+    window.isModalOrPopupOpen = false;
+    enableBodyScrollGlobally();
+}
+
+function loadComments(postId) {
+    fetch(`/blog/post/${postId}/comments/`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                renderComments(data.comments, postId);
+            }
+        });
+}
+
+function renderComments(comments, postId) {
+    const commentsSection = document.getElementById('commentsSection');
+    let html = `
+        <div class="comments-title">Comentarios (${comments.length})</div>
+        <div class="comment-form">
+            <input type="text" class="comment-input" id="usernameInput" placeholder="Tu nombre" maxlength="100">
+            <textarea class="comment-textarea" id="commentInput" placeholder="Escribe tu comentario..." maxlength="1000"></textarea>
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+            <button class="comment-submit" onclick="submitComment(${postId})">Comentar</button>
+        </div>
+        <div class="comments-list" id="commentsList">
+    `;
+    
+    if (comments.length === 0) {
+        html += '<div class="no-comments">No hay comentarios aún. ¡Sé el primero en comentar!</div>';
+    } else {
+        comments.forEach(comment => {
+            html += `
+                <div class="comment">
+                    <div class="comment-header">
+                        <span class="comment-username">${escapeHtml(comment.username)}</span>
+                        <span class="comment-date">${comment.created_date}</span>
+                    </div>
+                    <div class="comment-content">${escapeHtml(comment.content)}</div>
+                </div>
+            `;
+        });
+    }
+    
+    html += '</div>';
+    commentsSection.innerHTML = html;
+}
+
+function submitComment(postId) {
+    if (!postId) return;
+    
+    const username = document.getElementById('usernameInput').value.trim();
+    const content = document.getElementById('commentInput').value.trim();
+    const errorDiv = document.getElementById('errorMessage');
+    const submitBtn = document.querySelector('.comment-submit');
+    
+    errorDiv.style.display = 'none';
+    if (!username || !content) {
+        showError('Por favor completa todos los campos');
+        return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Enviando...';
+    
+    // Obtener el token CSRF de la cookie
+    const csrfToken = document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+
+    fetch(`/blog/post/${postId}/comment/add/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({username: username, content: content})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('commentInput').value = '';
+            loadComments(postId);
+        } else {
+            showError(data.error || 'Error al enviar comentario');
+        }
+    })
+    .catch(error => showError('Error de conexión'))
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Comentar';
+    });
+}
+
+function showError(message) {
+    const errorDiv = document.getElementById('errorMessage');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Agregar el event listener para cerrar el popup
+const popupBg = document.getElementById('popupBg');
+if (popupBg) {
+    popupBg.addEventListener('click', function(e) {
+        if (e.target === this) {
+            closePopup();
+        }
+    });
+}
+
+// Exponer funciones al objeto window
+window.openPopup = openPopup;
+window.closePopup = closePopup;
+window.submitComment = submitComment;

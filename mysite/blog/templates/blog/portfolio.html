@@ -443,8 +443,9 @@
         <div class="about-bg"></div>
         <img src="{% static 'blog/Assets/blob.png' %}" class="about-blob topleft" alt="Blob Top Left">
         <img src="{% static 'blog/Assets/blob.png' %}" class="about-blob topright" alt="Blob Top Right">
-        <img src="{% static 'blog/Assets/Logo - Sin Fondo.png' %}" class="about-logo-bg" alt="Logo Fondo" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:2; width:70%; max-width:350px; pointer-events:none; filter:blur(0.5px);">
         <div class="about-card">
+            <img src="{% static 'blog/Assets/Logo - Sin Fondo.png' %}" class="about-corner-logo" alt="Logo">
+            <img src="{% static 'blog/Assets/Me.png' %}" class="about-corner-me" alt="Me">
             <div class="about-title">
                 <span id="about-typed"></span>
             </div>
@@ -474,6 +475,7 @@ Un desarrollador en constante evolución, dedicado a nunca dejar de aprender y p
     <section id="habilidades" class="section">
         <img src="{% static 'blog/Assets/avion.gif' %}" alt="Avión volando" class="flying-plane">
         <div class="portfolio-container">
+            <div class="top-row">
             <div class="skill-item">
                 <input type="checkbox" id="skill-html" class="skill-checkbox">
                 <label for="skill-html" class="bubble html-bubble">
@@ -527,10 +529,114 @@ Un desarrollador en constante evolución, dedicado a nunca dejar de aprender y p
                         <li>Manejo de archivos JSON</li>
                         <li>Programación orientada a objetos</li>
                         <li>Manejo de datos</li>
-                        <li>Facil adaptacion a nuevas librerias</li>
+                        <li>Fácil adaptación a nuevas librerías</li>
                         <li>Entre otras</li>
                     </ul>
                 </div>
+            </div>
+
+            <!-- Photoshop -->
+            <div class="skill-item">
+                <input type="checkbox" id="skill-photoshop" class="skill-checkbox">
+                <label for="skill-photoshop" class="bubble photoshop-bubble">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/500px-Adobe_Photoshop_CC_icon.svg.png" alt="Photoshop Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-photoshop" class="close-modal-btn">&times;</label>
+                    <h2>Photoshop</h2>
+                    <p>Edición y manipulación de imágenes profesionales.</p>
+                    <ul>
+                        <li>Retoque fotográfico</li>
+                        <li>Creación de banners y assets</li>
+                        <li>Composición y efectos</li>
+                        <li>Uso de capas y máscaras</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SQL -->
+            <div class="skill-item">
+                <input type="checkbox" id="skill-sql" class="skill-checkbox">
+                <label for="skill-sql" class="bubble sql-bubble">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sql_data_base_with_logo.svg/1200px-Sql_data_base_with_logo.svg.png" alt="SQL Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-sql" class="close-modal-btn">&times;</label>
+                    <h2>SQL</h2>
+                    <p>Gestión y consulta de bases de datos relacionales.</p>
+                    <ul>
+                        <li>Consultas SELECT avanzadas</li>
+                        <li>Diseño de bases de datos</li>
+                        <li>Normalización y relaciones</li>
+                        <li>Procedimientos almacenados</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+
+            </div>
+
+            <div class="bottom-row">
+            <!-- Edición de Video -->
+            <div class="skill-item">
+                <input type="checkbox" id="skill-video" class="skill-checkbox">
+                <label for="skill-video" class="bubble video-bubble">
+                    <img src="https://cdn-icons-png.flaticon.com/512/421/421027.png" alt="Edición de Video">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-video" class="close-modal-btn">&times;</label>
+                    <h2>Edición de Video</h2>
+                    <p>Creación y edición de videos para proyectos y presentaciones.</p>
+                    <ul>
+                        <li>Montaje y cortes</li>
+                        <li>Transiciones y efectos</li>
+                        <li>Sincronización de audio</li>
+                        <li>Exportación en diferentes formatos</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- IA / Prompting -->
+            <div class="skill-item">
+                <input type="checkbox" id="skill-ia" class="skill-checkbox">
+                <label for="skill-ia" class="bubble ia-bubble">
+                    <img src="https://cdn-icons-png.flaticon.com/512/6360/6360908.png" alt="IA Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-ia" class="close-modal-btn">&times;</label>
+                    <h2>Inteligencia Artificial</h2>
+                    <p>Dominio de IA y buen prompting para soluciones modernas.</p>
+                    <ul>
+                        <li>Prompt engineering</li>
+                        <li>Automatización de tareas</li>
+                        <li>Integración de IA en proyectos</li>
+                        <li>Uso de herramientas generativas</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Django -->
+            <div class="skill-item">
+                <input type="checkbox" id="skill-django" class="skill-checkbox">
+                <label for="skill-django" class="bubble django-bubble">
+                    <img src="https://www.svgrepo.com/show/353657/django-icon.svg" alt="Django Logo">
+                </label>
+                <div class="skill-modal">
+                    <label for="skill-django" class="close-modal-btn">&times;</label>
+                    <h2>Django</h2>
+                    <p>Desarrollo web backend con el framework Django.</p>
+                    <ul>
+                        <li>Creación de aplicaciones web</li>
+                        <li>Modelado de datos con ORM</li>
+                        <li>Desarrollo de APIs REST</li>
+                        <li>Autenticación y seguridad</li>
+                        <li>Entre otras</li>
+                    </ul>
+                </div>
+            </div>
             </div>
         </div>
     </section>
@@ -657,6 +763,20 @@ Un desarrollador en constante evolución, dedicado a nunca dejar de aprender y p
     </section>
 
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- Inicializar datos de los posts -->
+    <script>
+        window.postsData = [
+            {% for post in posts %}
+                {
+                    "id": {{ post.id }},
+                    "title": "{{ post.title|escapejs }}",
+                    "content": "{{ post.content|linebreaksbr|escapejs }}",
+                    "pub_date": "{{ post.pub_date|date:'d/m/Y H:i' }}",
+                    "cover": {% if post.cover %}"{{ post.cover.url }}"{% else %}null{% endif %}
+                }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+    </script>
     <script src="{% static 'blog/script.js' %}"></script>
     <script>
         // SCRIPT DEL BLOG PEGADO AQUÍ
