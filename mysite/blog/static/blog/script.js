@@ -206,10 +206,62 @@ document.addEventListener('DOMContentLoaded', function() {
     updateDotNavigation();
     goToSection(0); // Ensure initial section setup
 
-    const contactForm = document.querySelector('.contact-form');
+    // CONTACT FORM HANDLER
+    const contactForm = document.getElementById('contactForm');
     if(contactForm) {
         contactForm.addEventListener('submit', function(event) {
-            // The form will submit to formsubmit.co, so we don't prevent default
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('contactSubmit');
+            const messageDiv = document.getElementById('contactMessage');
+            const formData = new FormData(this);
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+            messageDiv.style.display = 'none';
+            
+            // Convert FormData to JSON
+            const data = {};
+            formData.forEach((value, key) => {
+                if (key !== 'csrfmiddlewaretoken') {
+                    data[key] = value;
+                }
+            });
+            
+            // Get CSRF token
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            
+            fetch('/blog/contact/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'contact-message success';
+                    messageDiv.style.display = 'block';
+                    contactForm.reset();
+                } else {
+                    messageDiv.textContent = data.error;
+                    messageDiv.className = 'contact-message error';
+                    messageDiv.style.display = 'block';
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = 'Error de conexión. Inténtalo de nuevo.';
+                messageDiv.className = 'contact-message error';
+                messageDiv.style.display = 'block';
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar';
+            });
         });
     }
 });

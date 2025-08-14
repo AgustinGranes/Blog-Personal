@@ -940,7 +940,8 @@ body {
     align-items: center;
     justify-content: space-between;
     background-color: #4071f4;
-    padding: 40px;
+    padding: 0;
+    height: 100vh;
 }
 
 .contact-container {
@@ -951,71 +952,178 @@ body {
     height: 100%;
 }
 
-.contact-logo img {
-    max-width: 300px;
-    height: auto;
-    margin-right: 20px;
+/* Lado izquierdo - Logo centrado perfectamente */
+.contact-left {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
 }
 
-/* Corrected styles for the contact section logo */
 .contact-logo {
-    width: 100px; /* Adjusted size for smaller logo */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.contact-logo img {
+    max-width: 300px;
+    max-height: 300px;
+    width: auto;
     height: auto;
-    display: block;
-    margin: 15 auto; /* Centers the logo horizontally */
-    position: relative;
-    left: 10%; /* Slightly moved to the right */
-    top: 35%; /* Moved slightly upwards */
-    transform: translateY(-50%); /* Ensures perfect vertical centering */
+    object-fit: contain;
+}
+
+/* Lado derecho - Formulario */
+.contact-right {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
 }
 
 .contact-card {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     border-radius: 15px;
-    padding: 20px;
+    padding: 30px;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-    width: 50%;
-    margin-left: 0;
-    margin-right: 40px; /* Desplaza el formulario hacia la izquierda */
+    width: 100%;
+    max-width: 500px;
 }
 
 .contact-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 20px;
 }
 
 .contact-form h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
+    font-family: 'MiFuentePersonalizada', 'Open Sans', sans-serif;
 }
 
 .contact-form label {
     font-size: 16px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 5px;
 }
 
 .contact-form input,
 .contact-form textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.8);
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #fff;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.contact-form textarea {
+    min-height: 120px;
+    resize: vertical;
 }
 
 .contact-form button {
-    padding: 10px 20px;
+    padding: 15px 30px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #000;
     color: #fff;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
 }
 
-.contact-form button:hover {
-    background-color: #4071f4;
+.contact-form button:hover:not(:disabled) {
+    background-color: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.contact-form button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Mensaje de éxito/error */
+.contact-message {
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 500;
+    display: none;
+}
+
+.contact-message.success {
+    background-color: rgba(76, 175, 80, 0.9);
+    color: white;
+    border: 1px solid rgba(76, 175, 80, 1);
+}
+
+.contact-message.error {
+    background-color: rgba(244, 67, 54, 0.9);
+    color: white;
+    border: 1px solid rgba(244, 67, 54, 1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #contacto {
+        flex-direction: column;
+        padding: 20px;
+    }
+    
+    .contact-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .contact-left,
+    .contact-right {
+        width: 100%;
+        height: auto;
+        padding: 20px;
+    }
+    
+    .contact-logo img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+    
+    .contact-card {
+        max-width: 100%;
+        padding: 25px;
+    }
+    
+    .contact-form h2 {
+        font-size: 24px;
+    }
 }
 
 /* ESTILOS DEL BLOG POPUP - COMENTARIOS */
