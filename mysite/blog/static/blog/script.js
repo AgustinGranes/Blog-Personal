@@ -10,7 +10,7 @@ function enableBodyScrollGlobally() {
     // Only enable scroll if no project popup or skill modal is currently active
     const projectPopupActive = document.querySelector('.proyecto-popup.active');
     const skillModalActive = document.querySelector('.skill-checkbox:checked');
-    const blogPopupActive = document.getElementById('popupBg') && document.getElementById('popupBg').classList.contains('active');
+    const blogPopupActive = document.getElementById('blog-popup') && document.getElementById('blog-popup').classList.contains('active');
 
     if (!projectPopupActive && !skillModalActive && !blogPopupActive) {
         document.body.style.overflow = ''; // Restore default body overflow
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.isModalOrPopupOpen) {
             const activeProyectoPopupContent = document.querySelector('.proyecto-popup.active .proyecto-popup-content');
             const activeSkillModal = document.querySelector('.skill-modal[style*="visibility: visible"]');
-            const activeBlogPopupContent = document.querySelector('#popupBg.active #popupMainContent');
+            const activeBlogPopupContent = document.querySelector('#blog-popup.active .blog-popup-content');
 
             let allowModalScroll = false;
             if (activeProyectoPopupContent && activeProyectoPopupContent.contains(e.target) && activeProyectoPopupContent.scrollHeight > activeProyectoPopupContent.clientHeight) {
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === "Escape") {
                 const activeProyectoPopup = document.querySelector('.proyecto-popup.active');
                 const activeSkillCheckbox = document.querySelector('.skill-checkbox:checked');
-                const blogPopup = document.getElementById('popupBg');
+                const blogPopup = document.getElementById('blog-popup');
 
                 if (activeProyectoPopup) {
                     const closeBtn = activeProyectoPopup.querySelector('.proyecto-popup-close');
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const closeLabel = document.querySelector(`label.close-modal-btn[for="${activeSkillCheckbox.id}"]`);
                     if(closeLabel) closeLabel.click();
                 } else if (blogPopup && blogPopup.classList.contains('active')) {
-                    closePopup(); // Blog popup close function
+                    closeBlogPopup(); // Blog popup close function
                 }
             }
             return;
@@ -234,7 +234,7 @@ const proyectos = {
 
 // Script para el popup de Proyectos
 document.addEventListener('DOMContentLoaded', function() {
-    const proyectoCards = document.querySelectorAll('.proyecto-card');
+    const proyectoCards = document.querySelectorAll('.proyecto-card:not(.blog-card)');
     const popup = document.getElementById('proyecto-popup');
     if (!popup) return;
 
@@ -367,6 +367,71 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSlider();
 });
 
+// SLIDER BLOG (IGUAL AL DE PROYECTOS)
+document.addEventListener('DOMContentLoaded', function() {
+    const sliderInner = document.getElementById('slider-blog-inner');
+    const prevBtn = document.getElementById('blog-slider-prev');
+    const nextBtn = document.getElementById('blog-slider-next');
+    
+    if (!sliderInner || !prevBtn || !nextBtn) return;
+
+    const cards = sliderInner.querySelectorAll('.blog-card');
+    if (cards.length === 0) {
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+    }
+
+    let currentIndex = 0;
+    let cardWidth = cards[0].offsetWidth; 
+    const gap = 24; 
+    let maxVisible = 3; 
+
+    function calculateMaxVisibleAndCardWidth() {
+        const sliderVisibleWidth = document.getElementById('slider-blog').offsetWidth;
+        if (cards.length > 0) {
+            cardWidth = cards[0].offsetWidth;
+        }
+        maxVisible = Math.floor((sliderVisibleWidth + gap) / (cardWidth + gap));
+        if (maxVisible < 1) maxVisible = 1;
+    }
+
+    function updateSlider() {
+        calculateMaxVisibleAndCardWidth(); 
+
+        const offset = currentIndex * (cardWidth + gap);
+        sliderInner.style.transform = `translateX(-${offset}px)`;
+
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= cards.length - maxVisible || cards.length <= maxVisible;
+
+        prevBtn.classList.toggle('active', currentIndex > 0);
+        nextBtn.classList.toggle('active', currentIndex < cards.length - maxVisible && cards.length > maxVisible);
+    }
+
+    prevBtn.addEventListener('click', function() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    });
+
+    nextBtn.addEventListener('click', function() {
+        if (currentIndex < cards.length - maxVisible) {
+            currentIndex++;
+            updateSlider();
+        }
+    });
+
+    let resizeTimeoutSlider;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeoutSlider);
+        resizeTimeoutSlider = setTimeout(updateSlider, 200);
+    });
+    
+    updateSlider();
+});
+
 // Animación del Avión
 function startPlaneAnimation() {
     const plane = document.querySelector('.flying-plane');
@@ -385,91 +450,76 @@ document.addEventListener('DOMContentLoaded', function() {
     startPlaneAnimation();
 });
 
-
 // --- SCRIPT DEL BLOG ---
-document.addEventListener('DOMContentLoaded', function() {
-    const slides = document.getElementById('slides');
-    if (!slides || slides.children.length === 0) return;
-
-    let totalSlides = slides.children.length;
-    let currentSlide = 0;
-    let postsToShow = 1;
-
-    const leftBtn = document.getElementById('sliderLeft');
-    const rightBtn = document.getElementById('sliderRight');
-    const slider = document.querySelector('#blog .slider');
-
-    function updateSlider() {
-        if (slides.children.length === 0) return;
-        const slideWidth = slides.children[0].offsetWidth + 24;
-        const containerWidth = slider.offsetWidth;
-        postsToShow = Math.max(1, Math.floor(containerWidth / slideWidth));
-
-        if (totalSlides > postsToShow) {
-            leftBtn.style.display = 'block';
-            rightBtn.style.display = 'block';
-        } else {
-            leftBtn.style.display = 'none';
-            rightBtn.style.display = 'none';
-        }
-
-        slides.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-        updateSliderBtns();
-    }
-
-    function moveSlide(dir) {
-        currentSlide += dir;
-        if (currentSlide < 0) {
-            currentSlide = 0;
-        }
-        if (currentSlide > totalSlides - postsToShow) {
-            currentSlide = totalSlides - postsToShow;
-        }
-        updateSlider();
-    }
-
-    function updateSliderBtns() {
-        if (leftBtn) leftBtn.disabled = currentSlide === 0;
-        if (rightBtn) rightBtn.disabled = currentSlide >= totalSlides - postsToShow;
-    }
-    
-    leftBtn.addEventListener('click', () => moveSlide(-1));
-    rightBtn.addEventListener('click', () => moveSlide(1));
-    
-    window.addEventListener('resize', updateSlider);
-    updateSlider();
-});
-
 // Los datos de los posts se inicializan desde la plantilla de Django
 let postsData = window.postsData || [];
 
-function openPopup(idx) {
-    if (typeof postsData === 'undefined' || !postsData[idx]) return;
-    
-    const post = postsData[idx];
-    
-    let html = '';
-    if (post.cover) {
-        html += `<img src="${post.cover}" alt="Portada" onerror="this.src='https://via.placeholder.com/600x300/e0e0e0/999?text=Imagen+no+disponible'">`;
-    }
-    html += `<h2>${post.title}</h2>`;
-    html += `<div style='color:#444;font-size:1.1em;margin-bottom:12px;line-height:1.6;word-wrap:break-word;'>${post.content}</div>`;
-    html += `<p style='color:#666;font-size:0.95em;'><i>${post.pub_date}</i></p>`;
-    html += `<div class="comments-section" id="commentsSection"></div>`;
-    
-    document.getElementById('popupMainContent').innerHTML = html;
-    document.getElementById('popupBg').classList.add('active');
-    window.isModalOrPopupOpen = true;
-    disableBodyScrollGlobally();
-    
-    loadComments(post.id);
-}
+// Script para el popup de Blog (usando las mismas clases que proyectos)
+document.addEventListener('DOMContentLoaded', function() {
+    const blogCards = document.querySelectorAll('.blog-card');
+    const popup = document.getElementById('blog-popup');
+    if (!popup) return;
 
-function closePopup() {
-    document.getElementById('popupBg').classList.remove('active');
-    window.isModalOrPopupOpen = false;
-    enableBodyScrollGlobally();
-}
+    const popupNombre = popup.querySelector('.blog-popup-nombre');
+    const popupDescripcion = popup.querySelector('.blog-popup-content-text');
+    const popupImgContainer = popup.querySelector('.blog-popup-img');
+    const popupDate = popup.querySelector('.blog-popup-date');
+    const popupCloseBtn = popup.querySelector('.blog-popup-close');
+
+    blogCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const blogIndex = parseInt(this.getAttribute('data-blog'));
+            const blogData = postsData[blogIndex];
+
+            if (blogData) {
+                popupNombre.textContent = blogData.title;
+                popupDescripcion.innerHTML = blogData.content;
+                popupDate.textContent = blogData.pub_date;
+                
+                popupImgContainer.innerHTML = '';
+                if (blogData.cover) {
+                    const img = document.createElement('img');
+                    img.src = blogData.cover;
+                    img.alt = blogData.title;
+                    img.style.width = '100%';
+                    img.style.height = '100%';
+                    img.style.objectFit = 'cover';
+                    img.onerror = function() {
+                        this.src = 'https://via.placeholder.com/600x180/e0e0e0/999?text=Imagen+no+disponible';
+                    };
+                    popupImgContainer.appendChild(img);
+                } else {
+                    popupImgContainer.innerHTML = '<img src="https://via.placeholder.com/600x180/e0e0e0/999?text=Sin+imagen" alt="Sin portada" style="width: 100%; height: 100%; object-fit: cover;">';
+                }
+
+                popup.classList.add('active');
+                window.isModalOrPopupOpen = true;
+                disableBodyScrollGlobally();
+                
+                loadComments(blogData.id);
+            }
+        });
+    });
+
+    function cerrarBlogPopup() {
+        popup.classList.remove('active');
+        window.isModalOrPopupOpen = false;
+        enableBodyScrollGlobally();
+    }
+
+    if (popupCloseBtn) {
+        popupCloseBtn.addEventListener('click', cerrarBlogPopup);
+    }
+
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            cerrarBlogPopup();
+        }
+    });
+
+    // Exponer función globalmente
+    window.closeBlogPopup = cerrarBlogPopup;
+});
 
 function loadComments(postId) {
     fetch(`/blog/post/${postId}/comments/`)
@@ -571,17 +621,5 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Agregar el event listener para cerrar el popup
-const popupBg = document.getElementById('popupBg');
-if (popupBg) {
-    popupBg.addEventListener('click', function(e) {
-        if (e.target === this) {
-            closePopup();
-        }
-    });
-}
-
 // Exponer funciones al objeto window
-window.openPopup = openPopup;
-window.closePopup = closePopup;
 window.submitComment = submitComment;

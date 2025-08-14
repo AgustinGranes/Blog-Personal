@@ -156,7 +156,7 @@ body {
     pointer-events: none; /* Para que no interfiera con clics */
 }
 /* Nueva sección: fondo Banner Fondo.png */
-#proyectos {
+#proyectos, #blog {
     position: relative; /* Para que el z-index de .contenido-proyectos funcione */
     background: url('./Assets/Banner Fondo.png') center 0%/cover no-repeat; /* Ajustado para cubrir y centrar */
     min-height: 100vh;
@@ -165,7 +165,7 @@ body {
     align-items: center;
     justify-content: center;
 }
-#proyectos .contenido-proyectos {
+#proyectos .contenido-proyectos, #blog .contenido-proyectos {
     position: relative; /* Para que esté por encima del fondo */
     z-index: 2;
     color: #fff; /* Color del texto */
@@ -659,7 +659,7 @@ body {
     pointer-events: none; /* No interactuable */
 }
 
-/* PROYECTOS CARDS Y POPUP */
+/* PROYECTOS Y BLOG CARDS Y POPUP - ESTILOS COMPARTIDOS */
 .proyectos-lista { /* Si decides usar una lista en vez de slider */
     display: flex;
     flex-direction: column; /* O row si es horizontal */
@@ -667,7 +667,7 @@ body {
     align-items: center;
     margin-top: 32px;
 }
-.proyecto-card {
+.proyecto-card, .blog-card {
     background: rgba(255,255,255,0.18); /* Fondo glassmorphism para las cards */
     border-radius: 22px;
     box-shadow: 0 4px 18px 0 rgba(0,0,0,0.13);
@@ -681,25 +681,25 @@ body {
     font-family: 'Open Sans', sans-serif; /* Fuente legible */
     text-align: left; /* Alineación del texto de la card */
 }
-.proyecto-card:hover {
+.proyecto-card:hover, .blog-card:hover {
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18); /* Sombra más pronunciada al pasar el mouse */
     transform: scale(1.03); /* Ligeramente más grande al pasar el mouse */
 }
-.proyecto-card .proyecto-desc { /* Estilo específico para la descripción dentro de la card */
+.proyecto-card .proyecto-desc, .blog-card .blog-desc { /* Estilo específico para la descripción dentro de la card */
     text-align: center;
     padding: 0 10px;
 }
 
-.proyecto-nombre {
+.proyecto-nombre, .blog-nombre {
     font-size: 1.3em;
     font-weight: bold;
     margin-bottom: 6px;
 }
-.proyecto-desc {
+.proyecto-desc, .blog-desc {
     font-size: 1em;
     opacity: 0.8; /* Descripción un poco más tenue */
 }
-.proyecto-popup {
+.proyecto-popup, .blog-popup {
     display: none; /* Oculto por defecto */
     position: fixed; /* Superpuesto a todo */
     top: 0; left: 0; width: 100vw; height: 100vh;
@@ -708,10 +708,10 @@ body {
     align-items: center;
     justify-content: center;
 }
-.proyecto-popup.active {
+.proyecto-popup.active, .blog-popup.active {
     display: flex; /* Visible cuando está activo */
 }
-.proyecto-popup-content {
+.proyecto-popup-content, .blog-popup-content {
     background: rgba(255,255,255,0.95); /* Fondo del popup casi opaco */
     border-radius: 28px;
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
@@ -727,7 +727,7 @@ body {
     touch-action: pan-y; /* Permite scroll táctil vertical */
     position: relative; /* Para el botón de cerrar */
 }
-.proyecto-popup-close {
+.proyecto-popup-close, .blog-popup-close {
     position: absolute;
     top: 12px; right: 22px;
     font-size: 2.2em; /* Tamaño del botón de cerrar */
@@ -736,11 +736,11 @@ body {
     z-index: 2; /* Encima del contenido del popup */
     transition: transform 0.3s ease, color 0.3s ease;
 }
-.proyecto-popup-close:hover {
+.proyecto-popup-close:hover, .blog-popup-close:hover {
     transform: scale(1.2) rotate(90deg); /* Animación al pasar el mouse */
     color: #e74c3c; /* Color rojo al pasar el mouse */
 }
-.proyecto-popup-img {
+.proyecto-popup-img, .blog-popup-img {
     width: 100%; height: 180px; /* Altura fija para la imagen del proyecto */
     background: #eaeaea; /* Color de fondo si no hay imagen */
     border-top-left-radius: 28px; /* Redondeo superior */
@@ -752,7 +752,7 @@ body {
     font-size: 1.2em;
     color: #aaa; /* Color del texto si no hay imagen */
 }
-.proyecto-popup-nombre {
+.proyecto-popup-nombre, .blog-popup-nombre {
     font-size: 1.4em;
     font-weight: bold;
     margin-bottom: 10px;
@@ -760,7 +760,7 @@ body {
     color: #222;
     text-align: center;
 }
-.proyecto-popup-descripcion, .proyecto-popup-proposito {
+.proyecto-popup-descripcion, .proyecto-popup-proposito, .blog-popup-descripcion, .blog-popup-content-text {
     width: 90%; /* Ancho del texto dentro del popup */
     margin-bottom: 12px;
     color: #222;
@@ -791,15 +791,15 @@ body {
 }
 
 @media (max-width: 500px) {
-    .proyecto-popup-content {
+    .proyecto-popup-content, .blog-popup-content {
         width: 99vw; /* Popup ocupa casi todo el ancho en móviles muy pequeños */
         border-radius: 0; /* Sin redondeo en móviles muy pequeños */
         max-height: 100vh; /* Puede ocupar toda la altura */
     }
 }
 
-/* SLIDER PROYECTOS */
-.slider-proyectos-wrapper {
+/* SLIDER PROYECTOS Y BLOG - ESTILOS COMPARTIDOS */
+.slider-proyectos-wrapper, .slider-blog-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -843,7 +843,7 @@ body {
     height: 22px;
     display: block; /* Para asegurar que el SVG se comporte bien */
 }
-.slider-proyectos {
+.slider-proyectos, .slider-blog {
     display: flex;
     flex-direction: row; /* Las cards van en fila */
     gap: 24px; /* Espacio entre cards */
@@ -855,14 +855,14 @@ body {
     max-width: 90vw; /* Máximo en pantallas pequeñas */
     position: relative; /* Para el inner si es necesario */
 }
-.slider-proyectos-inner {
+.slider-proyectos-inner, .slider-blog-inner {
     display: flex;
     flex-direction: row;
     gap: 24px; /* Mismo gap que el contenedor */
     width: 100%; /* Para que el transform translateX funcione correctamente */
     /* transition: transform 0.5s ease; No es necesario aquí, se aplica en JS o al contenedor */
 }
-.proyecto-card { /* Estilos ya definidos, pero aseguramos especificidad si es necesario */
+.proyecto-card, .blog-card { /* Estilos ya definidos, pero aseguramos especificidad si es necesario */
     background: #fff; /* Fondo blanco para las cards */
     border-radius: 22px;
     box-shadow: 0 4px 18px 0 rgba(0,0,0,0.13);
@@ -881,7 +881,7 @@ body {
     flex-direction: column;
     align-items: center; /* Centrar contenido de la card */
 }
-.proyecto-card-img {
+.proyecto-card-img, .blog-card-img {
     width: 100%;
     height: 140px; /* Altura fija para la imagen de la card */
     background: #eaeaea; /* Fondo si no hay imagen */
@@ -892,7 +892,7 @@ body {
     justify-content: center;
     overflow: hidden; /* Para que la imagen no se salga del redondeo */
 }
-.proyecto-card-img img {
+.proyecto-card-img img, .blog-card-img img {
     width: 100%;
     height: 100%;
     object-fit: cover; /* Para que la imagen cubra el espacio sin deformarse */
@@ -1016,4 +1016,113 @@ body {
 
 .contact-form button:hover {
     background-color: #4071f4;
+}
+
+/* ESTILOS DEL BLOG POPUP - COMENTARIOS */
+.comments-section {
+    border-top: 1px solid #eee;
+    padding: 20px 24px;
+    background: #f8f9fa;
+    margin-top: 20px;
+}
+.comments-title {
+    font-size: clamp(1.1rem, 2.5vw, 1.2rem);
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #333;
+}
+.comment-form {
+    margin-bottom: 20px;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.comment-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: clamp(14px, 2.5vw, 16px);
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+.comment-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: clamp(14px, 2.5vw, 16px);
+    resize: vertical;
+    font-family: inherit;
+    box-sizing: border-box;
+}
+.comment-submit {
+    background: #4071f4;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: clamp(14px, 2.5vw, 16px);
+    margin-top: 8px;
+    min-height: 44px;
+}
+.comment-submit:hover {
+    background: #3060e3;
+}
+.comment-submit:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+.comments-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+.comment {
+    background: white;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 10px;
+}
+.comment-username {
+    font-weight: bold;
+    color: #4071f4;
+    font-size: clamp(13px, 2.2vw, 14px);
+    flex-shrink: 0;
+}
+.comment-date {
+    color: #666;
+    font-size: clamp(11px, 2vw, 12px);
+    flex-shrink: 0;
+}
+.comment-content {
+    color: #333;
+    line-height: 1.4;
+    font-size: clamp(13px, 2.2vw, 14px);
+    word-wrap: break-word;
+}
+.no-comments {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px;
+    font-size: clamp(14px, 2.5vw, 16px);
+}
+.error-message {
+    background: #ffe6e6;
+    color: #d00;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-size: clamp(13px, 2.2vw, 14px);
 }

@@ -8,393 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Ubuntu:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blog/style.css' %}">
-    <style>
-        /* ESTILOS DEL BLOG PEGADOS AQUÍ PARA UN SOLO ARCHIVO */
-        #blog {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #4071f4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .main-card {
-            background: rgba(102,141,246,0.92);
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-            padding: 32px;
-            width: 100%;
-            max-width: 1200px;
-            min-height: 60vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            position: relative;
-            box-sizing: border-box;
-        }
-        #blog h1 {
-            text-align: center;
-            font-size: clamp(1.8rem, 4vw, 2.5rem);
-            margin-bottom: 32px;
-            color: #222;
-            letter-spacing: 1px;
-            font-weight: 900;
-        }
-        .slider-outer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            flex: 1;
-        }
-        .slider-wrapper {
-            display: flex;
-            align-items: stretch;
-            justify-content: center;
-            width: 100%;
-            flex: 1;
-            position: relative;
-            padding: 0;
-        }
-        .slider-btn {
-            background: none;
-            border: none;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 2;
-            margin: 0;
-            opacity: 0.4;
-            transition: opacity 0.2s;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(102,141,246,0.92);
-            border-radius: 50%;
-            pointer-events: auto;
-        }
-        .slider-btn.left { left: -20px; }
-        .slider-btn.right { right: -20px; }
-        .slider-btn.active {
-            opacity: 1;
-        }
-        .slider-btn svg {
-            width: 32px;
-            height: 32px;
-            fill: #fff;
-            stroke: #4071f4;
-            stroke-width: 2.5;
-            filter: drop-shadow(0 2px 6px rgba(64,113,244,0.18));
-        }
-        .slider-btn:active { opacity: 1; }
-        .slider {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            display: flex;
-            align-items: stretch;
-            justify-content: center;
-            margin: 0 40px;
-        }
-        .slides-bg {
-            background: none;
-            border-radius: 0;
-            box-shadow: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            align-items: stretch;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        .slides {
-            display: flex;
-            transition: transform 0.5s cubic-bezier(.4,2,.6,1);
-            width: 100%;
-            height: 100%;
-            gap: 24px;
-        }
-        .slide {
-            flex: 0 0 auto;
-            min-width: 280px;
-            width: calc(50% - 12px);
-            max-width: 400px;
-            height: 320px;
-            background: #fff;
-            border-radius: 16px;
-            text-align: left;
-            cursor: pointer;
-            position: relative;
-            box-shadow: 0 2px 12px rgba(64,113,244,0.10);
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            justify-content: space-between;
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-        .slide-inner {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .slide-cover {
-            flex: 0 0 33%;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #e0e0e0;
-            margin: 0;
-            padding: 0;
-        }
-        .slide-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 0;
-            display: block;
-            margin: 0;
-            padding: 0;
-        }
-        .slide-content {
-            flex: 1 1 67%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: stretch;
-            padding: 16px 20px 14px 20px;
-            overflow: hidden;
-        }
-        .slide-title {
-            font-size: clamp(1rem, 2.5vw, 1.1rem);
-            font-weight: 900;
-            margin: 0 0 10px 0;
-            color: #222;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .slide-text {
-            font-size: clamp(0.9rem, 2vw, 1rem);
-            color: #444;
-            margin: 0 0 12px 0;
-            width: 100%;
-            display: -webkit-box;
-            -webkit-line-clamp: 6;
-            line-clamp: 6;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 1;
-            line-height: 1.4;
-        }
-        .slide-date {
-            color: #666;
-            font-size: clamp(0.85rem, 1.8vw, 0.95rem);
-            margin: 0;
-            width: 100%;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            height: 1.2em;
-            line-height: 1.2em;
-        }
-        .no-posts {
-            color: #fff;
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        /* Popup Styles */
-        .popup-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.75);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .popup-bg.active {
-            display: flex;
-        }
-        .popup {
-            background: white;
-            padding: 0;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 700px;
-            max-height: 90vh;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            box-sizing: border-box;
-        }
-        .popup-content {
-            padding: 24px;
-            overflow-y: auto;
-            flex: 1;
-        }
-        .popup img {
-            width: 100%;
-            height: auto;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-bottom: 16px;
-        }
-        .popup h2 {
-            font-size: clamp(1.3rem, 3vw, 1.5rem);
-            margin-bottom: 16px;
-            color: #222;
-            word-wrap: break-word;
-        }
-        .popup-close {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            font-size: 24px;
-            color: #4071f4;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 1001;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .popup-close:hover {
-            background: rgba(64,113,244,0.1);
-        }
-
-        /* Comments Section */
-        .comments-section {
-            border-top: 1px solid #eee;
-            padding: 20px 24px;
-            background: #f8f9fa;
-            margin-top: 20px;
-        }
-        .comments-title {
-            font-size: clamp(1.1rem, 2.5vw, 1.2rem);
-            font-weight: bold;
-            margin-bottom: 16px;
-            color: #333;
-        }
-        .comment-form {
-            margin-bottom: 20px;
-            padding: 16px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .comment-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: clamp(14px, 2.5vw, 16px);
-            margin-bottom: 10px;
-            box-sizing: border-box;
-        }
-        .comment-textarea {
-            width: 100%;
-            min-height: 80px;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: clamp(14px, 2.5vw, 16px);
-            resize: vertical;
-            font-family: inherit;
-            box-sizing: border-box;
-        }
-        .comment-submit {
-            background: #4071f4;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: clamp(14px, 2.5vw, 16px);
-            margin-top: 8px;
-            min-height: 44px;
-        }
-        .comment-submit:hover {
-            background: #3060e3;
-        }
-        .comment-submit:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-        .comments-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        .comment {
-            background: white;
-            padding: 12px;
-            margin-bottom: 8px;
-            border-radius: 6px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .comment-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-            gap: 10px;
-        }
-        .comment-username {
-            font-weight: bold;
-            color: #4071f4;
-            font-size: clamp(13px, 2.2vw, 14px);
-            flex-shrink: 0;
-        }
-        .comment-date {
-            color: #666;
-            font-size: clamp(11px, 2vw, 12px);
-            flex-shrink: 0;
-        }
-        .comment-content {
-            color: #333;
-            line-height: 1.4;
-            font-size: clamp(13px, 2.2vw, 14px);
-            word-wrap: break-word;
-        }
-        .no-comments {
-            text-align: center;
-            color: #666;
-            font-style: italic;
-            padding: 20px;
-            font-size: clamp(14px, 2.5vw, 16px);
-        }
-        .error-message {
-            background: #ffe6e6;
-            color: #d00;
-            padding: 8px 12px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-size: clamp(13px, 2.2vw, 14px);
-        }
-    </style>
 </head>
 <body>
 
@@ -690,54 +303,57 @@ Un desarrollador en constante evolución, dedicado a nunca dejar de aprender y p
         </div>
     </section>
 
-    <!-- SECCIÓN DEL BLOG INTEGRADA -->
+    <!-- SECCIÓN DEL BLOG CON MISMO DISEÑO QUE PROYECTOS -->
     <section id="blog" class="section">
-        <div class="main-card">
+        <div class="contenido-proyectos">
             <h1>Blog Personal</h1>
-            <div class="slider-outer">
-                <div class="slider-wrapper">
-                    {% if posts %}
-                    <button class="slider-btn left" id="sliderLeft">
-                        <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#668df6" opacity="0.7"/><polyline points="28,14 18,24 28,34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                    <div class="slider">
-                        <div class="slides-bg">
-                            <div class="slides" id="slides">
-                                {% for post in posts %}
-                                <div class="slide" onclick="openPopup({{ forloop.counter0 }})">
-                                    <div class="slide-inner">
-                                        <div class="slide-cover">
-                                            {% if post.cover %}
-                                                <img src="{{ post.cover.url }}" alt="Portada" onerror="this.src='https://via.placeholder.com/300x100/e0e0e0/999?text=Imagen+no+disponible'">
-                                            {% else %}
-                                                <img src="https://via.placeholder.com/300x100/e0e0e0/999?text=Sin+imagen" alt="Sin portada">
-                                            {% endif %}
-                                        </div>
-                                        <div class="slide-content">
-                                            <div class="slide-title">{{ post.title }}</div>
-                                            <div class="slide-text">{{ post.content|truncatewords:30 }}</div>
-                                            <div class="slide-date"><i>{{ post.pub_date|date:'d/m/Y H:i' }}</i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </div>
+            {% if posts %}
+            <div class="slider-proyectos-wrapper">
+                <button class="slider-arrow left" id="blog-slider-prev" disabled>
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14 4L8 11L14 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="slider-proyectos" id="slider-blog">
+                  <div class="slider-proyectos-inner" id="slider-blog-inner">
+                    {% for post in posts %}
+                    <div class="proyecto-card blog-card" data-blog="{{ forloop.counter0 }}">
+                        <div class="proyecto-card-img blog-card-img">
+                            {% if post.cover %}
+                                <img src="{{ post.cover.url }}" alt="Portada" onerror="this.src='https://via.placeholder.com/320x140/e0e0e0/999?text=Imagen+no+disponible'">
+                            {% else %}
+                                <img src="https://via.placeholder.com/320x140/e0e0e0/999?text=Sin+imagen" alt="Sin portada">
+                            {% endif %}
                         </div>
+                        <div class="proyecto-nombre blog-nombre">{{ post.title }}</div>
+                        <div class="proyecto-desc blog-desc">{{ post.content|truncatewords:15 }}</div>
+                        <div class="blog-date" style="font-size: 0.9em; color: #666; margin-top: 8px; text-align: center;">{{ post.pub_date|date:'d/m/Y' }}</div>
                     </div>
-                    <button class="slider-btn right" id="sliderRight">
-                        <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="22" fill="#668df6" opacity="0.7"/><polyline points="20,14 30,24 20,34" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </button>
-                {% else %}
-                    <div class="no-posts">Aún no hay nada aquí</div>
-                {% endif %}
+                    {% endfor %}
+                  </div>
                 </div>
+                <button class="slider-arrow right" id="blog-slider-next">
+                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 4L14 11L8 18" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
             </div>
+            {% else %}
+            <div style="color: #fff; font-size: 1.5rem; text-align: center; padding: 40px 20px;">
+                Aún no hay nada aquí
+            </div>
+            {% endif %}
         </div>
-
-        <div class="popup-bg" id="popupBg">
-            <div class="popup" id="popupContent">
-                <button class="popup-close" onclick="closePopup()">&times;</button>
-                <div class="popup-content" id="popupMainContent"></div>
+        
+        <!-- Blog Popup -->
+        <div class="proyecto-popup blog-popup" id="blog-popup">
+            <div class="proyecto-popup-content blog-popup-content">
+                <span class="proyecto-popup-close blog-popup-close" onclick="closeBlogPopup()">&times;</span>
+                <div class="proyecto-popup-img blog-popup-img"></div>
+                <div class="proyecto-popup-nombre blog-popup-nombre">Título del Post</div>
+                <div class="proyecto-popup-descripcion blog-popup-content-text"></div>
+                <div class="blog-popup-date" style="color: #666; font-size: 0.95em; margin-bottom: 12px; text-align: center;"></div>
+                <div class="comments-section" id="commentsSection"></div>
             </div>
         </div>
     </section>
@@ -778,210 +394,5 @@ Un desarrollador en constante evolución, dedicado a nunca dejar de aprender y p
         ];
     </script>
     <script src="{% static 'blog/script.js' %}"></script>
-    <script>
-        // SCRIPT DEL BLOG PEGADO AQUÍ
-        document.addEventListener('DOMContentLoaded', function() {
-            const slides = document.getElementById('slides');
-            if (!slides || slides.children.length === 0) return;
-
-            let totalSlides = slides.children.length;
-            let currentSlide = 0;
-            let postsToShow = 1;
-
-            const leftBtn = document.getElementById('sliderLeft');
-            const rightBtn = document.getElementById('sliderRight');
-            const slider = document.querySelector('#blog .slider');
-
-            function updateSlider() {
-                if (slides.children.length === 0) return;
-                const slideWidth = slides.children[0].offsetWidth + 24;
-                const containerWidth = slider.offsetWidth;
-                postsToShow = Math.max(1, Math.floor(containerWidth / slideWidth));
-
-                if (totalSlides > postsToShow) {
-                    leftBtn.style.display = 'block';
-                    rightBtn.style.display = 'block';
-                } else {
-                    leftBtn.style.display = 'none';
-                    rightBtn.style.display = 'none';
-                }
-
-                slides.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-                updateSliderBtns();
-            }
-
-            function moveSlide(dir) {
-                currentSlide += dir;
-                if (currentSlide < 0) {
-                    currentSlide = 0;
-                }
-                if (currentSlide > totalSlides - postsToShow) {
-                    currentSlide = totalSlides - postsToShow;
-                }
-                updateSlider();
-            }
-
-            function updateSliderBtns() {
-                if (leftBtn) leftBtn.disabled = currentSlide === 0;
-                if (rightBtn) rightBtn.disabled = currentSlide >= totalSlides - postsToShow;
-            }
-            
-            leftBtn.addEventListener('click', () => moveSlide(-1));
-            rightBtn.addEventListener('click', () => moveSlide(1));
-            
-            window.addEventListener('resize', updateSlider);
-            updateSlider();
-        });
-
-        const postsData = JSON.parse(`[
-            {% for post in posts %}
-                {
-                    "id": {{ post.id }},
-                    "title": "{{ post.title|escapejs }}",
-                    "content": "{{ post.content|linebreaksbr|escapejs }}",
-                    "pub_date": "{{ post.pub_date|date:'d/m/Y H:i' }}",
-                    "cover": {% if post.cover %}"{{ post.cover.url }}"{% else %}null{% endif %}
-                }{% if not forloop.last %},{% endif %}
-            {% endfor %}
-        ]`);
-        
-        function openPopup(idx) {
-            idx = parseInt(idx);
-            const post = postsData[idx];
-            if (!post) return;
-            
-            let html = '';
-            if (post.cover) {
-                html += `<img src="${post.cover}" alt="Portada" onerror="this.src='https://via.placeholder.com/600x300/e0e0e0/999?text=Imagen+no+disponible'">`;
-            }
-            html += `<h2>${post.title}</h2>`;
-            html += `<div style='color:#444;font-size:1.1em;margin-bottom:12px;line-height:1.6;word-wrap:break-word;'>${post.content}</div>`;
-            html += `<p style='color:#666;font-size:0.95em;'><i>${post.pub_date}</i></p>`;
-            html += `<div class="comments-section" id="commentsSection"></div>`;
-            
-            document.getElementById('popupMainContent').innerHTML = html;
-            document.getElementById('popupBg').classList.add('active');
-            window.isModalOrPopupOpen = true; // Flag for main script
-            disableBodyScrollGlobally();
-            
-            loadComments(post.id);
-        }
-        
-        function closePopup() {
-            document.getElementById('popupBg').classList.remove('active');
-            window.isModalOrPopupOpen = false; // Flag for main script
-            enableBodyScrollGlobally();
-        }
-        
-        function loadComments(postId) {
-            fetch(`/blog/post/${postId}/comments/`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        renderComments(data.comments, postId);
-                    }
-                });
-        }
-        
-        function renderComments(comments, postId) {
-            const commentsSection = document.getElementById('commentsSection');
-            let html = `
-                <div class="comments-title">Comentarios (${comments.length})</div>
-                <div class="comment-form">
-                    <input type="text" class="comment-input" id="usernameInput" placeholder="Tu nombre" maxlength="100">
-                    <textarea class="comment-textarea" id="commentInput" placeholder="Escribe tu comentario..." maxlength="1000"></textarea>
-                    <div id="errorMessage" class="error-message" style="display: none;"></div>
-                    <button class="comment-submit" onclick="submitComment(${postId})">Comentar</button>
-                </div>
-                <div class="comments-list" id="commentsList">
-            `;
-            
-            if (comments.length === 0) {
-                html += '<div class="no-comments">No hay comentarios aún. ¡Sé el primero en comentar!</div>';
-            } else {
-                comments.forEach(comment => {
-                    html += `
-                        <div class="comment">
-                            <div class="comment-header">
-                                <span class="comment-username">${escapeHtml(comment.username)}</span>
-                                <span class="comment-date">${comment.created_date}</span>
-                            </div>
-                            <div class="comment-content">${escapeHtml(comment.content)}</div>
-                        </div>
-                    `;
-                });
-            }
-            
-            html += '</div>';
-            commentsSection.innerHTML = html;
-        }
-        
-        function submitComment(postId) {
-            if (!postId) return;
-            
-            const username = document.getElementById('usernameInput').value.trim();
-            const content = document.getElementById('commentInput').value.trim();
-            const errorDiv = document.getElementById('errorMessage');
-            const submitBtn = document.querySelector('.comment-submit');
-            
-            errorDiv.style.display = 'none';
-            if (!username || !content) {
-                showError('Por favor completa todos los campos');
-                return;
-            }
-            
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Enviando...';
-            
-            fetch(`/blog/post/${postId}/comment/add/`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({username: username, content: content})
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('usernameInput').value = '';
-                    document.getElementById('commentInput').value = '';
-                    loadComments(postId);
-                } else {
-                    showError(data.error || 'Error al enviar comentario');
-                }
-            })
-            .catch(error => showError('Error de conexión'))
-            .finally(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Comentar';
-            });
-        }
-        
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMessage');
-            errorDiv.textContent = message;
-            errorDiv.style.display = 'block';
-        }
-        
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-        
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.getElementById('popupBg').classList.contains('active')) {
-                closePopup();
-            }
-        });
-        
-        document.getElementById('popupBg').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closePopup();
-            }
-        });
-
-        window.openPopup = openPopup;
-        window.closePopup = closePopup;
-        window.submitComment = submitComment;
-    </script>
 </body>
 </html>
